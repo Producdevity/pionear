@@ -1,0 +1,21 @@
+{
+  "name": "pionear",
+  "description": "Pionear webapp in AngularJS",
+  "version": "0.0.0",
+  "homepage": "https://github.com/YassineGherbi/pionear",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "~1.5.0",
+    "angular-loader": "~1.5.0",
+    "angularfire": "^2.1.0",
+    "angular-ui-router": "ui-router#^0.3.2",
+    "angular-cookies": "^1.6.0",
+    "Ionicons": "ionicons#^2.0.1",
+    "angular-toastr": "^2.1.1"
+  },
+  "appPath": "src",
+  "install": {
+    "path": "src/assets/libs"
+  }
+}

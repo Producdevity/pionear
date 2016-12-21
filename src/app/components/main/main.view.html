@@ -1,0 +1,28 @@
+<div class="wrapper">
+
+	<!-- Main Header -->
+	<ng-include src="'app/shared/layout/header/header.html'"></ng-include>
+
+	<!-- Left side column. contains the logo and sidebar -->
+	<ng-include src="'app/shared/layout/sidebar/sidebar.html'"></ng-include>
+
+
+	<!-- Content Wrapper. Contains page content -->
+	<div class="content-wrapper">
+		<!-- Content Header (Page header) -->
+		<page-header title="Dashboard"></page-header>
+
+		<!-- Main content -->
+		<section class="content">
+			<!-- Your Page Content Here -->
+			<ui-view></ui-view>
+		</section>
+		<!-- /.content -->
+	</div>
+	<!-- /.content-wrapper -->
+
+	<!-- Main Footer -->
+	<ng-include src="'app/shared/layout/footer/footer.html'"></ng-include>
+
+</div>
+<!-- ./wrapper -->

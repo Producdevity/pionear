@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="myApp" ng-controller="CoreController as core" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<base href="/">
+	<title>Ticketlogs</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!--Bootstrap-->
+	<link rel="stylesheet" href="assets/libs/bootstrap/bootstrap.css">
+	<!--Angular toastr-->
+	<link rel="stylesheet" href="assets/libs/angular-toastr/angular-toastr.css">
+	<!--IONICONS-->
+	<link rel="stylesheet" href="assets/libs/Ionicons/ionicons.css"/>
+	<!-- Material icons-->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<!-- Font Awesome -->
+	<link rel="stylesheet"
+	      href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<!-- Theme style -->
+	<link rel="stylesheet" href="assets/theme/css/AdminLTE.css">
+	<!--Skin-->
+	<link rel="stylesheet" href="assets/theme/css/skins/skin-blue.min.css">
+	<!-- main style-->
+	<link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body class="hold-transition skin-blue" body-classes>
+
+<!--[if lt IE 7]>
+<p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+	your browser</a> to improve your experience.</p>
+<![endif]-->
+
+	<ui-view></ui-view>
+
+<!-- ./wrapper -->
+<!--jQuery-->
+<script src="assets/libs/jquery/jquery.js"></script>
+<!--Bootstrap-->
+<script src="assets/libs/bootstrap/bootstrap.js"></script>
+<!--Angular-->
+<script src="assets/libs/angular/angular.js"></script>
+<!--UI-Router-->
+<script src="assets/libs/angular-ui-router/angular-ui-router.js"></script>
+<!--Angular Cookies-->
+<script src="assets/libs/angular-cookies/angular-cookies.js"></script>
+<!-- Firebase -->
+<script src="assets/libs/angularfire/angularfire.js"></script>
+<!-- AngularFire -->
+<script src="assets/libs/firebase/firebase.js"></script>
+<!--Angular toastr-->
+<script src="assets/libs/angular-toastr/angular-toastr.tpls.js"></script>
+
+<!--Components-->
+<!--<script src="build/es6/build.js"></script>-->
+<script src="build/app.js"></script>
+<script src="assets/theme/js/app.js"></script>
+<script>
+	$(document).ready(function() {
+	});
+</script>
+
+</body>
+</html>

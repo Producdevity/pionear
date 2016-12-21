@@ -1,0 +1,10 @@
+.idea/
+bower_components/
+node_modules/
+public/build/
+.firebaserc
+.sass-cache/
+database.rules.json
+firebase.json
+public/assets/css/app.css
+public/assets/css/app.css.map

@@ -3,7 +3,7 @@
 (function () {
 	'use strict';
 
-	angular.module('tlApp', [
+	angular.module('myApp', [
 	//	Third Party Modules
 	'ui.router', 'firebase', 'toastr',
 	//	My Modules

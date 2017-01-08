@@ -3,7 +3,7 @@
 (function () {
 	'use strict';
 
-	angular.module("tlApp").config(config);
+	angular.module("myApp").config(config);
 
 	function config($urlRouterProvider, $stateProvider) {
 		console.log('app.routes function started');

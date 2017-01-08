@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-			.module('tlApp', [
+			.module('myApp', [
 				//	Third Party Modules
 				'ui.router',
 				'firebase',
@@ -19,7 +19,7 @@
 	'use strict';
 
 	angular
-			.module("tlApp")
+			.module("myApp")
 			.config(config);
 
 	function config($urlRouterProvider, $stateProvider) {
@@ -31,30 +31,40 @@
 		$stateProvider
 				.state('main', {
 					url:          '/',
-					abstract:    true,
 					templateUrl:  `${BASE_URL}/main/main.view.html`,
 					controller:   'MainController',
 					controllerAs: 'vm',
 					data:         {
 						bodyClasses: 'sidebar-mini'
+					},
+					resolve:      {
+						// controller will not be loaded until $requireSignIn resolves
+						// Auth refers to our $firebaseAuth wrapper in the factory below
+						"currentAuth": ["Auth", function(Auth) {
+							// $requireSignIn returns a promise so the resolve waits for it to complete
+							// If the promise is rejected, it will throw a $stateChangeError (see above)
+							return Auth.$requireSignIn();
+						}]
 					}
 				})
-				.state('main.dashboard', {
-					url:         '/dashboard',
-					templateUrl:  `${BASE_URL}/main/main.view.html`,
-				})
-				//.state('auth.signin', {
-				//	url:          '/signin',
-				//	templateUrl:  `${AUTH_URL}/sign-in/sign-in.view.html`,
-				//	controller:   'AuthController',
-				//	controllerAs: 'vm'
-				//})
-				//.state('auth.signup', {
-				//	url:          '/signup',
-				//	templateUrl:  `${AUTH_URL}/sign-up/signup.view.html`,
-				//	controller:   'AuthController',
-				//	controllerAs: 'vm'
-				//})
+		//.state('main.dashboard', {
+		//	url:         '/dashboard',
+		//	controller:   'MainController',
+		//	controllerAs: 'vm',
+		//	templateUrl:  `${BASE_URL}/main/main.view.html`,
+		//})
+		//.state('auth.signin', {
+		//	url:          '/signin',
+		//	templateUrl:  `${AUTH_URL}/sign-in/sign-in.view.html`,
+		//	controller:   'AuthController',
+		//	controllerAs: 'vm'
+		//})
+		//.state('auth.signup', {
+		//	url:          '/signup',
+		//	templateUrl:  `${AUTH_URL}/sign-up/signup.view.html`,
+		//	controller:   'AuthController',
+		//	controllerAs: 'vm'
+		//})
 		//.state('contact', {
 		//	url: '/contact',
 		//	templateUrl: 'contact.html'
@@ -71,46 +81,9 @@
 
 	function AuthController() {
 		let vm = this;
-		//const _fs = Functions;
-		//
-		//vm.loading = true;
-		//
-		//vm.signIn = signIn;
-		//
-		//Auth.$onAuthStateChanged(user => {
-		//	console.log('authcont(): $onAuthStateChanged');
-		//	if(user) $location.path('/dashboard');
-		//	$timeout(() => { vm.loading = false; }, 1000);
-		//});
-		//
-		//
-		//function signIn(credentials) {
-		//	vm.loading = true;
-		//	Auth.$signInWithEmailAndPassword(credentials.email, credentials.pass)
-		//			.then(user => {
-		//				_fs.toast(`Signed in as ${user.email}`);
-		//				$location.path('/dashboard');
-		//			})
-		//			.catch(error => {
-		//				console.error("Authentication failed:", error);
-		//				_fs.toast(error.message, 5000);
-		//				vm.error = error.message;
-		//				vm.loading = false;
-		//			});
-		//}
 
 	}
 })();
-//import * as angular from 'angular';
-//
-//import AuthController from './auth.controller.js';
-//import AuthService from './auth.service.js';
-//
-//export default angular
-//		.module('authModule', [])
-//		.controller('auth.controller', AuthController)
-//		.service('auth.service', AuthService);
-
 (() => {
 	'use strict';
 
@@ -210,67 +183,33 @@
 			.module("sign-in.controller", [])
 			.controller("SignInController", SignInController);
 
-	function SignInController(Auth, $location, $timeout, Functions) {
+	function SignInController(Auth, $location, Functions) {
 		let vm   = this;
 		this._fs = Functions;
 
-		vm.title = 'Sign in to ticketlogs';
+		vm.title = 'Sign in to Pionear';
 		vm.loading = true;
 
 		vm.signIn = signIn;
 
 		Auth.$onAuthStateChanged(user => {
-			console.log('signin(): $onAuthStateChanged');
-			//if(user) $location.path('/dashboard');
-			$timeout(() => {
-				vm.loading = false;
-			}, 1000);
+			if(user) $location.path('/');
 		});
 
 		function signIn(credentials) {
 			vm.loading = true;
-			this._fs.toast().error('Error');
-			Auth.$signInWithEmailAndPassword(credentials.email = '', credentials.pass = '')
+			Auth.$signInWithEmailAndPassword(credentials.email, credentials.pass)
 					.then(user => {
 						this._fs.toast().success(`Signed in as ${user.email}`);
-						//$location.path('/dashboard');
+						$location.path('/dashboard');
 					})
 					.catch(error => {
 						console.error("Authentication failed:", error);
 						this._fs.toast().error(error.message);
-						//_fs.toast(error.message, 5000);
 						vm.error   = error.message;
 						vm.loading = false;
 					});
 		}
-
-		//const _fs = Functions;
-		//
-		//vm.loading = true;
-		//
-		//vm.signIn = signIn;
-		//
-		//Auth.$onAuthStateChanged(user => {
-		//	console.log('authcont(): $onAuthStateChanged');
-		//	if(user) $location.path('/dashboard');
-		//	$timeout(() => { vm.loading = false; }, 1000);
-		//});
-		//
-		//
-		//function signIn(credentials) {
-		//	vm.loading = true;
-		//	Auth.$signInWithEmailAndPassword(credentials.email, credentials.pass)
-		//			.then(user => {
-		//				_fs.toast(`Signed in as ${user.email}`);
-		//				$location.path('/dashboard');
-		//			})
-		//			.catch(error => {
-		//				console.error("Authentication failed:", error);
-		//				_fs.toast(error.message, 5000);
-		//				vm.error = error.message;
-		//				vm.loading = false;
-		//			});
-		//}
 
 	}
 })();
@@ -281,22 +220,28 @@
 			.module("sign-up.controller", [])
 			.controller("SignUpController", SignUpController);
 
-	function SignUpController(Auth, Functions, $timeout, $location) {
+	function SignUpController(Auth, UserService, Functions, $timeout, $location) {
 		let vm   = this;
 		this._fs = Functions;
 
-		vm.title = 'Sign up for ticketlogs';
+		vm.title = 'Sign up for Pionear';
 
 		vm.signUp = signUp;
 
 		function signUp(credentials) {
-			console.log(credentials);
 			Auth.$createUserWithEmailAndPassword(credentials.email, credentials.pass)
 					.then(user => {
-						this._fs.toast().success('Signed in successfully!');
-						console.log("User " + user.uid + " created successfully!");
-						console.log(user);
-						$timeout(() => {$location.path('/dashboard');}, 1000);
+						let newUser   = UserService.getUser(user.uid);
+						newUser.email = user.email;
+						newUser.name  = credentials.name;
+						newUser.company  = credentials.company;
+						newUser.address  = credentials.address;
+						newUser.zipcode  = credentials.zipcode;
+						newUser.phone  = credentials.phone;
+						newUser.land  = credentials.land;
+						newUser.$save()
+								.then(this._fs.toast().success('Signed up successfully!'))
+								.then($location.path('/'));
 					})
 					.catch(error => {
 						this._fs.toast().error(error.message);
@@ -307,12 +252,14 @@
 
 	}
 })();
+
 (() => {
 	'use strict';
 
 	angular
 			.module('components.module', [
 				'auth.module',
+				'user.module',
 				'main.module'
 			]);
 })();
@@ -330,16 +277,6 @@
 	}
 })();
 
-//class MainController {
-//	constructor(){
-//		this.controllerName = 'Main Controller';
-//		this.test = 'maincontrollertest';
-//	}
-//}
-//
-//angular
-//		.module("main.controller", [])
-//		.controller("MainController", MainController);
 (() => {
 	'use strict';
 
@@ -354,7 +291,67 @@
 	'use strict';
 
 	angular
-			.module("tlApp")
+			.module("user.controller", [])
+			.controller("UserController", UserController);
+
+	function UserController() {
+		let vm = this;
+
+	}
+})();
+(() => {
+	'use strict';
+
+	angular
+			.module('user.module', [
+				'user.controller',
+				'user.service'
+			]);
+
+})();
+
+(() => {
+	'use strict';
+
+	angular
+			.module("user.service", [])
+			.factory("UserService", UserService);
+
+	function UserService($firebaseRef, $firebaseArray, $firebaseObject) {
+		const users = $firebaseArray($firebaseRef.users);
+
+		const API = {
+			getUsers:   getUsers,
+			getUser:    getUser,
+			updateUser: updateUser,
+			deleteUser: deleteUser
+		};
+		return API;
+
+		function getUsers() {
+			return users;
+		}
+
+		function getUser(uid) {
+			return $firebaseObject($firebaseRef.users.child(uid));
+		}
+
+		function updateUser(user) {
+			return user.$save();
+		}
+
+		function deleteUser(user) {
+			return users.$remove(user);
+		}
+
+
+	}
+})();
+(() => {
+	'use strict';
+
+	angular
+			.module("myApp")
 			.config(config)
 			.run(run)
 
@@ -363,11 +360,11 @@
 
 		// Initialize Firebase
 		const CONFIG = {
-			apiKey:            "AIzaSyBlfqv4McR9H9vewwL_1235xV-qkmoDyFs",
-			authDomain:        "ticketlogs-d5b62.firebaseapp.com",
-			databaseURL:       "https://ticketlogs-d5b62.firebaseio.com",
-			storageBucket:     "ticketlogs-d5b62.appspot.com",
-			messagingSenderId: "577795172631"
+			apiKey:            "AIzaSyDsp_oBM8lPOnEGVnByjsofGw7Kpftzfe8",
+			authDomain:        "pionear-d070e.firebaseapp.com",
+			databaseURL:       "https://pionear-d070e.firebaseio.com",
+			storageBucket:     "pionear-d070e.appspot.com",
+			messagingSenderId: "96740586251"
 		};
 		firebase.initializeApp(CONFIG);
 
@@ -378,7 +375,7 @@
 
 	}
 
-	function run(Auth, $rootScope, $location) {
+	function run(Auth, $rootScope, $location, $state) {
 		console.log('run function started');
 		checkAuth();
 
@@ -386,11 +383,18 @@
 			checkAuth();
 		});
 
+		$rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
+			// We can catch the error thrown when the $requireSignIn promise is rejected
+			// and redirect the user back to the home page
+			if(error === "AUTH_REQUIRED") {
+				$state.go("home");
+			}
+		});
+
 		function checkAuth() {
 			Auth.$onAuthStateChanged(user => {
-				//if(!user) $location.path('/auth/signin');
+				if(!user) $location.path('/auth/sign-in');
 				console.log('run(): ' + user);
-				$rootScope.user = user;
 			});
 		}
 
@@ -404,10 +408,20 @@
 			.module("core.controller", [])
 			.controller("CoreController", CoreController);
 
-	function CoreController($rootScope) {
+	function CoreController(Auth, UserService, Functions, $rootScope) {
 		let vm = this;
+		this._fs = Functions;
 
-		vm.currentUser = 'Yassine Gherbi';
+		vm.signOut = signOut;
+
+		Auth.$onAuthStateChanged(user => {
+			if(user) vm.currentUser = UserService.getUser(user.uid);
+		});
+
+		function signOut() {
+			Auth.$signOut()
+					.then(this._fs.toast().success('You are signed out.'));
+		}
 
 	}
 })();
@@ -493,9 +507,10 @@
 				return {
 					restrict:    'E',
 					scope:       {
-						data: '='
+						data: '=',
+						title: '@'
 					},
-					templateUrl: 'app/shared/directives/page-header.directive/page-header.template.html'
+					templateUrl: 'app/shared/directives/page-header/page-header.template.html'
 				}
 			})
 
@@ -519,72 +534,8 @@
 
 	function SidebarController($location, Auth) {
 		var vm      = this;
-		vm.signOut   = signOut;
-		vm.isActive = isActive;
-		// initialize view data
-		function init() {
 
-		}
-
-		init();
-
-		//vm.auth.$onAuthStateChanged(function(user) {
-		//	vm.user = user;
-		//});
-
-		function signOut() {
-			Auth.$signOut()
-					.then(_fs.toast('You are signed out.'));
-
-		}
-
-		function isActive(destination) {
-			return destination === $location.path();
-		}
 	}
-})();
-
-(function () {
-	angular
-			.module("nav.controller", [])
-			.controller("NavController", NavController);
-
-	function NavController($location, Auth, Functions) {
-		var vm      = this;
-		const _fs = Functions;
-		vm.signOut   = signOut;
-		vm.isActive = isActive;
-		// initialize view data
-		function init() {
-
-		}
-
-		init();
-
-		//vm.auth.$onAuthStateChanged(function(user) {
-		//	vm.user = user;
-		//});
-
-		function signOut() {
-			Auth.$signOut()
-					.then(_fs.toast('You are signed out.'));
-
-		}
-
-		function isActive(destination) {
-			return destination === $location.path();
-		}
-	}
-})();
-
-'use strict';
-
-(function() {
-  angular
-      .module("nav.module", [
-        "nav.controller"
-      ]);
-
 })();
 
 (() => {

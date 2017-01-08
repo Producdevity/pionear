@@ -9,7 +9,7 @@
 		var vm = this;
 		this._fs = Functions;
 
-		vm.title = 'Sign in to ticketlogs';
+		vm.title = 'Sign in to Pionear';
 		vm.loading = true;
 
 		vm.signIn = signIn;

@@ -3,18 +3,18 @@
 (function () {
 	'use strict';
 
-	angular.module("tlApp").config(config).run(run);
+	angular.module("myApp").config(config).run(run);
 
 	function config($firebaseRefProvider) {
 		console.log('config function started');
 
 		// Initialize Firebase
 		var CONFIG = {
-			apiKey: "AIzaSyBlfqv4McR9H9vewwL_1235xV-qkmoDyFs",
-			authDomain: "ticketlogs-d5b62.firebaseapp.com",
-			databaseURL: "https://ticketlogs-d5b62.firebaseio.com",
-			storageBucket: "ticketlogs-d5b62.appspot.com",
-			messagingSenderId: "577795172631"
+			apiKey: "AIzaSyDsp_oBM8lPOnEGVnByjsofGw7Kpftzfe8",
+			authDomain: "pionear-d070e.firebaseapp.com",
+			databaseURL: "https://pionear-d070e.firebaseio.com",
+			storageBucket: "pionear-d070e.appspot.com",
+			messagingSenderId: "96740586251"
 		};
 		firebase.initializeApp(CONFIG);
 
@@ -43,7 +43,7 @@
 		function checkAuth() {
 			Auth.$onAuthStateChanged(function (user) {
 				if (!user) $location.path('/auth/sign-in');
-				console.log('run(): ' + user);
+				console.log(user);
 			});
 		}
 	};

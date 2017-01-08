@@ -45,7 +45,7 @@
 		function checkAuth() {
 			Auth.$onAuthStateChanged(user => {
 				if(!user) $location.path('/auth/sign-in');
-				console.log('run(): ' + user);
+				console.log(user);
 			});
 		}
 

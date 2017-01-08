@@ -54,7 +54,7 @@ module.exports = function(grunt) {
 		concat: {
 			js:  {
 				src:  ['<%= pn.app %>/**/*.js'],
-				dest: '<%= tl.build %>/js/scripts.js'
+				dest: '<%= pn.build %>/js/scripts.js'
 			},
 			css: {
 				src:  ['<%= pn.assets %>/css/*.css'],

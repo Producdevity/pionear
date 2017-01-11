@@ -6,7 +6,8 @@
 <!--[if IE 8]>
 <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html lang="en" ng-app="myApp" ng-controller="CoreController as core" class="no-js"> <!--<![endif]-->
+<html lang="en" ng-app="myApp" ng-controller="CoreController as core" class="no-js">
+<!--<![endif]-->
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,21 +27,17 @@
 	<!-- Font Awesome -->
 	<link rel="stylesheet"
 	      href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-	<!-- Theme style -->
-	<link rel="stylesheet" href="assets/theme/css/AdminLTE.css">
-	<!--Skin-->
-	<link rel="stylesheet" href="assets/theme/css/skins/skin-blue.min.css">
 	<!-- main style-->
 	<link rel="stylesheet" href="assets/css/app.css">
 </head>
-<body class="hold-transition skin-blue" body-classes>
+<body>
 
 <!--[if lt IE 7]>
 <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
 	your browser</a> to improve your experience.</p>
 <![endif]-->
 
-	<ui-view></ui-view>
+<ui-view></ui-view>
 
 <!-- ./wrapper -->
 <!--jQuery-->
@@ -63,9 +60,13 @@
 <!--Components-->
 <!--<script src="build/es6/build.js"></script>-->
 <script src="build/app.js"></script>
-<script src="assets/theme/js/app.js"></script>
 <script>
 	$(document).ready(function() {
+//		$("#menu-toggle").click(function(e) {
+//			e.preventDefault();
+//			console.log('loggg');
+//			$("#wrapper").toggleClass("toggled");
+//		});
 	});
 </script>
 

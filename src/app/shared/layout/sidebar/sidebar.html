@@ -1,51 +1,36 @@
-<aside class="main-sidebar">
-
-	<!-- sidebar: style can be found in sidebar.less -->
-	<section class="sidebar">
-
-		<!-- Sidebar user panel (optional) -->
-		<div class="user-panel">
-			<div class="pull-left image">
-				<img src="assets/theme/img/user2-160x160.jpg" class="img-circle" alt="User Image - {{core.currentUser.name}}">
-			</div>
-			<div class="pull-left info">
-				<p>{{core.currentUser.name}}</p>
-				<!-- Status -->
-				<a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-			</div>
+<!-- Sidebar -->
+<div id="sidebar-wrapper">
+	<ul class="sidebar-nav">
+		<div class="avatar">
+			<img alt="" src="assets/img/profile/nespresso.jpg">
+			<h5> Nespresso {{core.currentUser.name}} </h5>
 		</div>
-
-		<!-- search form (Optional) -->
-		<form action="#" method="get" class="sidebar-form">
-			<div class="input-group">
-				<input type="text" name="q" class="form-control" placeholder="Search...">
-				<span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-			</div>
-		</form>
-		<!-- /.search form -->
-
-		<!-- Sidebar Menu -->
-		<ul class="sidebar-menu">
-			<li class="header">HEADER</li>
-			<!-- Optionally, you can add icons to the links -->
-			<li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-			<li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-			<li class="treeview">
-				<a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-					<span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-				</a>
-				<ul class="treeview-menu">
-					<li ui-sref-active="active"><a ui-sref="auth.signin">Link in level 2</a></li>
-					<li ui-sref-active="active"><a ui-sref="auth.signup">Link in level 2</a></li>
-				</ul>
-			</li>
-		</ul>
-		<!-- /.sidebar-menu -->
-	</section>
-	<!-- /.sidebar -->
-</aside>
+		<li>
+			<a href="index.html"><i class="material-icons sidebar-icon">broken_image</i><span class="nav-item">Dashboard</span></a>
+		</li>
+		<li>
+			<a href="#"><i class="material-icons sidebar-icon">image</i>Photos</a>
+			<ul class="subnav">
+				<li> Overview </li>
+				<li> Add Photo</li>
+			</ul>
+		</li>
+		<li>
+			<a href="advertisements.html"><i class="material-icons sidebar-icon">insert_chart</i><span class="nav-item">Advertisements</span></a>
+			<ul class="subnav">
+				<a href="advertisements.html"> </a><li> Overview </li> </a>
+				<li> Add Advertisement</li>
+			</ul>
+		</li>
+		<li>
+			<a href="#"><i class="material-icons sidebar-icon">account_box</i><span class="nav-item">Account</span></a>
+			<ul class="subnav">
+				<li> Settings</li>
+				<li> Log out</li>
+				<li ui-sref-active="active"><a ui-sref="auth.signin">Link in level 2</a></li>
+				<li ui-sref-active="active"><a ui-sref="auth.signup">Link in level 2</a></li>
+			</ul>
+		</li>
+	</ul>
+</div>
+<!-- /#sidebar-wrapper -->

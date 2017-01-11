@@ -8,7 +8,15 @@
 					restrict:    'E',
 					scope:       {
 						data: '=',
-						title: '@'
+						title: '@',
+						toggle: '&'
+					},
+					controller: function($scope) {
+						$scope.toggleValue = false;
+						$scope.toggleSidebarInside = function() {
+							$scope.toggleValue = !$scope.toggleValue;
+							$scope.toggle();
+						};
 					},
 					templateUrl: 'app/shared/directives/page-header/page-header.template.html'
 				}

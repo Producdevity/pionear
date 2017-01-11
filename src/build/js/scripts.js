@@ -232,6 +232,7 @@
 			Auth.$createUserWithEmailAndPassword(credentials.email, credentials.pass)
 					.then(user => {
 						let newUser   = UserService.getUser(user.uid);
+						console.log(credentials);
 						newUser.email = user.email;
 						newUser.name  = credentials.name;
 						newUser.company  = credentials.company;
@@ -394,7 +395,7 @@
 		function checkAuth() {
 			Auth.$onAuthStateChanged(user => {
 				if(!user) $location.path('/auth/sign-in');
-				console.log('run(): ' + user);
+				console.log(user);
 			});
 		}
 

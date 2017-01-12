@@ -5,7 +5,7 @@
 			.module("core.controller", [])
 			.controller("CoreController", CoreController);
 
-	function CoreController(Auth, UserService, Functions, $rootScope, $scope) {
+	function CoreController(Auth, UserService, Functions, $rootScope) {
 		let vm   = this;
 		this._fs = Functions;
 

@@ -5,8 +5,8 @@
 			<img alt="" src="assets/img/profile/nespresso.jpg">
 			<h5> Nespresso {{core.currentUser.name}} </h5>
 		</div>
-		<li>
-			<a href="index.html"><i class="material-icons sidebar-icon">broken_image</i><span class="nav-item">Dashboard</span></a>
+		<li ui-sref-active="active">
+			<a ui-sref="main"><i class="material-icons sidebar-icon">broken_image</i><span class="nav-item">Dashboard</span></a>
 		</li>
 		<li>
 			<a href="#"><i class="material-icons sidebar-icon">image</i>Photos</a>
@@ -26,9 +26,7 @@
 			<a href="#"><i class="material-icons sidebar-icon">account_box</i><span class="nav-item">Account</span></a>
 			<ul class="subnav">
 				<li> Settings</li>
-				<li> Log out</li>
-				<li ui-sref-active="active"><a ui-sref="auth.signin">Link in level 2</a></li>
-				<li ui-sref-active="active"><a ui-sref="auth.signup">Link in level 2</a></li>
+				<li ng-click="core.signOut()"> Log out</li>
 			</ul>
 		</li>
 	</ul>

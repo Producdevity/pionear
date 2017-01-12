@@ -24,19 +24,16 @@
 
 	function config($urlRouterProvider, $stateProvider) {
 		console.log('app.routes function started');
-		const BASE_URL = 'app/components',
-		      AUTH_URL = `${BASE_URL}/auth`;
+		const BASE_PATH = 'app/components',
+		      AUTH_PATH = `${BASE_PATH}/auth`;
 
 		$urlRouterProvider.otherwise('/');
 		$stateProvider
 				.state('main', {
 					url:          '/',
-					templateUrl:  `${BASE_URL}/main/main.view.html`,
+					templateUrl:  `${BASE_PATH}/main/main.view.html`,
 					controller:   'MainController',
 					controllerAs: 'vm',
-					data:         {
-						bodyClasses: 'sidebar-mini'
-					},
 					resolve:      {
 						// controller will not be loaded until $requireSignIn resolves
 						// Auth refers to our $firebaseAuth wrapper in the factory below
@@ -71,6 +68,162 @@
 		//})
 	}
 
+})();
+(() => {
+	"use strict";
+
+	angular
+			.module("add-advertisment.controller", [])
+			.controller("AddAdvertismentController", AddAdvertismentController);
+
+	function AddAdvertismentController(Auth, UserService, Functions, $timeout, $location) {
+		let vm   = this;
+		this._fs = Functions;
+
+
+	}
+})();
+
+(() => {
+	'use strict';
+
+	angular
+			.module("auth.controller", [])
+			.controller("AuthController", AuthController);
+
+	function AuthController() {
+		let vm = this;
+
+	}
+})();
+(() => {
+	'use strict';
+
+	angular
+			.module('advertisment.module', [
+				'offer.routes',
+				'offer.controller',
+				'overview-advertisment.controller',
+				'add-advertisment.controller',
+				'offer.service'
+			]);
+
+})();
+
+(() => {
+	'use strict';
+
+	angular
+			.module("advertisment.routes", [])
+			.config(config)
+
+			function config($stateProvider) {
+				console.log('advertisment config function started');
+
+				const ADVERTISMENT_PATH = 'app/components/advertisment';
+
+				$stateProvider
+						.state('advertisment', {
+							abstract:    true,
+							url:         '/advertisment',
+							templateUrl: `${ADVERTISMENT_PATH}/advertisment.view.html`,
+						})
+						.state('advertisment.overview', {
+							url:          '/overview',
+							templateUrl:  `${ADVERTISMENT_PATH}/advertisment/overview.view.html`,
+							controller:   'OverviewAdvertismentController',
+							controllerAs: 'vm'
+						})
+						.state('advertisment.add', {
+							url:          '/add-advertisment',
+							templateUrl:  `${ADVERTISMENT_PATH}/advertisment/add-advertisment.view.html`,
+							controller:   'AddAdvertismentController',
+							controllerAs: 'vm'
+						})
+				//const config = {
+				//	apiKey:            "AIzaSyCpHUp3N9iuwO2BE-Abjr0C-lE1m424lBI",
+				//	authDomain:        "zapzite-b47f9.firebaseapp.com",
+				//	databaseURL:       "https://zapzite-b47f9.firebaseio.com",
+				//	storageBucket:     "zapzite-b47f9.appspot.com",
+				//	messagingSenderId: "554585547848"
+				//};
+				//firebase.initializeApp(config);
+				//
+				//$firebaseRefProvider.registerUrl({
+				//	default:    config.databaseURL,
+				//	categories: `${config.databaseURL}/categories`,
+				//	sites:      `${config.databaseURL}/sites`,
+				//	users:      `${config.databaseURL}/users`
+				//});
+				//
+				//$urlRouterProvider.otherwise('/');
+				//$stateProvider
+				//		.state('main', {
+				//			url: '/',
+				//			templateUrl: `${BASE_URL}/main/main.view.html`,
+				//			controller: 'MainController',
+				//      controllerAs: 'vm'
+				//		});
+						//.state('about', {
+						//	url: '/about',
+						//	templateUrl: 'about.html',
+						//	controller: 'aboutCtrl'
+						//})
+						//.state('contact', {
+						//	url: '/contact',
+						//	templateUrl: 'contact.html'
+						//})
+			}
+
+})();
+(() => {
+	'use strict';
+
+	angular
+			.module("auth.service", [])
+			.factory("Auth", Auth);
+
+	function Auth($firebaseAuth) {
+		return $firebaseAuth();
+	}
+})();
+
+(() => {
+	"use strict";
+
+	angular
+			.module("sign-in.controller", [])
+			.controller("SignInController", SignInController);
+
+	function SignInController(Auth, $location, Functions) {
+		let vm   = this;
+		this._fs = Functions;
+
+		vm.title = 'Sign in to Pionear';
+		vm.loading = true;
+
+		vm.signIn = signIn;
+
+		Auth.$onAuthStateChanged(user => {
+			if(user) $location.path('/');
+		});
+
+		function signIn(credentials) {
+			vm.loading = true;
+			Auth.$signInWithEmailAndPassword(credentials.email, credentials.pass)
+					.then(user => {
+						this._fs.toast().success(`Signed in as ${user.email}`);
+						$location.path('/dashboard');
+					})
+					.catch(error => {
+						console.error("Authentication failed:", error);
+						this._fs.toast().error(error.message);
+						vm.error   = error.message;
+						vm.loading = false;
+					});
+		}
+
+	}
 })();
 (() => {
 	'use strict';
@@ -108,23 +261,23 @@
 			function config($stateProvider) {
 				console.log('auth config function started');
 
-				const AUTH_URL = 'app/components/auth';
+				const AUTH_PATH = 'app/components/auth';
 
 				$stateProvider
 						.state('auth', {
 							abstract:    true,
 							url:         '/auth',
-							templateUrl: `${AUTH_URL}/auth.view.html`,
+							templateUrl: `${AUTH_PATH}/auth.view.html`,
 						})
 						.state('auth.signin', {
 							url:          '/sign-in',
-							templateUrl:  `${AUTH_URL}/sign-in/sign-in.view.html`,
+							templateUrl:  `${AUTH_PATH}/sign-in/sign-in.view.html`,
 							controller:   'SignInController',
 							controllerAs: 'vm'
 						})
 						.state('auth.signup', {
 							url:          '/sign-up',
-							templateUrl:  `${AUTH_URL}/sign-up/sign-up.view.html`,
+							templateUrl:  `${AUTH_PATH}/sign-up/sign-up.view.html`,
 							controller:   'SignUpController',
 							controllerAs: 'vm'
 						})
@@ -275,6 +428,7 @@
 	function MainController() {
 		let vm = this;
 
+
 	}
 })();
 
@@ -409,11 +563,14 @@
 			.module("core.controller", [])
 			.controller("CoreController", CoreController);
 
-	function CoreController(Auth, UserService, Functions, $rootScope) {
-		let vm = this;
+	function CoreController(Auth, UserService, Functions, $rootScope, $scope) {
+		let vm   = this;
 		this._fs = Functions;
 
-		vm.signOut = signOut;
+		vm.isToggled = false;
+
+		vm.toggleSidebarParent = toggleSidebarParent;
+		vm.signOut             = signOut;
 
 		Auth.$onAuthStateChanged(user => {
 			if(user) vm.currentUser = UserService.getUser(user.uid);
@@ -422,6 +579,10 @@
 		function signOut() {
 			Auth.$signOut()
 					.then(this._fs.toast().success('You are signed out.'));
+		}
+
+		function toggleSidebarParent() {
+			vm.isToggled = !vm.isToggled;
 		}
 
 	}
@@ -447,37 +608,8 @@
 	'use strict';
 
 	angular
-			.module('body-classes.directive', [])
-			.directive('bodyClasses', bodyClasses);
-
-	function bodyClasses($rootScope) {
-		return {
-			restrict: 'A',
-			scope:    {},
-			link:     function(scope, elem, attr, ctrl) {
-
-				$rootScope.$on('$stateChangeSuccess', (event, toState, toParams, fromState, fromParams) => {
-					let fromClassnames = angular.isDefined(fromState.data) && angular.isDefined(fromState.data.bodyClasses) ? fromState.data.bodyClasses : null;
-					let toClassnames   = angular.isDefined(toState.data) && angular.isDefined(toState.data.bodyClasses) ? toState.data.bodyClasses : null;
-
-					// don't do anything if they are the same
-					if(fromClassnames != toClassnames) {
-						if(fromClassnames) elem.removeClass(fromClassnames);
-						if(toClassnames) elem.addClass(toClassnames);
-					}
-				});
-
-			}
-		}
-	}
-})();
-(() => {
-	'use strict';
-
-	angular
 			.module('directives.module', [
 				'loading.directive',
-				'body-classes.directive',
 				'page-header.directive'
 			]);
 
@@ -509,7 +641,15 @@
 					restrict:    'E',
 					scope:       {
 						data: '=',
-						title: '@'
+						title: '@',
+						toggle: '&'
+					},
+					controller: function($scope) {
+						$scope.toggleValue = false;
+						$scope.toggleSidebarInside = function() {
+							$scope.toggleValue = !$scope.toggleValue;
+							$scope.toggle();
+						};
 					},
 					templateUrl: 'app/shared/directives/page-header/page-header.template.html'
 				}

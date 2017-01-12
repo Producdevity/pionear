@@ -5,7 +5,7 @@
 
 	angular.module("core.controller", []).controller("CoreController", CoreController);
 
-	function CoreController(Auth, UserService, Functions, $rootScope, $scope) {
+	function CoreController(Auth, UserService, Functions, $rootScope) {
 		var vm = this;
 		this._fs = Functions;
 

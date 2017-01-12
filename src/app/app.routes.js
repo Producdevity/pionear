@@ -5,21 +5,19 @@
 			.module("myApp")
 			.config(config);
 
-	function config($urlRouterProvider, $stateProvider) {
+	function config($urlRouterProvider, $locationProvider, $stateProvider) {
 		console.log('app.routes function started');
-		const BASE_URL = 'app/components',
-		      AUTH_URL = `${BASE_URL}/auth`;
+		const BASE_PATH = 'app/components';
 
-		$urlRouterProvider.otherwise('/');
+		$locationProvider.html5Mode(false);
+		$urlRouterProvider.otherwise('/dashboard');
 		$stateProvider
 				.state('main', {
-					url:          '/',
-					templateUrl:  `${BASE_URL}/main/main.view.html`,
+					url:          '',
+					abstract:     true,
+					templateUrl:  `${BASE_PATH}/main/main.view.html`,
 					controller:   'MainController',
 					controllerAs: 'vm',
-					data:         {
-						bodyClasses: 'sidebar-mini'
-					},
 					resolve:      {
 						// controller will not be loaded until $requireSignIn resolves
 						// Auth refers to our $firebaseAuth wrapper in the factory below
@@ -30,28 +28,12 @@
 						}]
 					}
 				})
-		//.state('main.dashboard', {
-		//	url:         '/dashboard',
-		//	controller:   'MainController',
-		//	controllerAs: 'vm',
-		//	templateUrl:  `${BASE_URL}/main/main.view.html`,
-		//})
-		//.state('auth.signin', {
-		//	url:          '/signin',
-		//	templateUrl:  `${AUTH_URL}/sign-in/sign-in.view.html`,
-		//	controller:   'AuthController',
-		//	controllerAs: 'vm'
-		//})
-		//.state('auth.signup', {
-		//	url:          '/signup',
-		//	templateUrl:  `${AUTH_URL}/sign-up/signup.view.html`,
-		//	controller:   'AuthController',
-		//	controllerAs: 'vm'
-		//})
-		//.state('contact', {
-		//	url: '/contact',
-		//	templateUrl: 'contact.html'
-		//})
+				.state('main.dashboard', {
+					url:          '/dashboard',
+					templateUrl:  `${BASE_PATH}/dashboard/dashboard.view.html`,
+					controller:   'DashboardController',
+					controllerAs: 'vm',
+				});
 	}
 
 })();

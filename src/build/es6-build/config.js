@@ -20,7 +20,8 @@
 
 		$firebaseRefProvider.registerUrl({
 			default: CONFIG.databaseURL,
-			users: CONFIG.databaseURL + '/users'
+			users: CONFIG.databaseURL + '/users',
+			offers: CONFIG.databaseURL + '/offers'
 		});
 	}
 

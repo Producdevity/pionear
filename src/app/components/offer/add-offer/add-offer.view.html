@@ -1,1 +1,15 @@
 <h1>ADD OFFER</h1>
+<form ng-submit="vm.addOffer()">
+	<input type="text" name="name" placeholder="name" ng-model="vm.newOffer.name">
+	<input type="text" name="description" placeholder="description" ng-model="vm.newOffer.description">
+	<input type="text" name="image">
+
+	<input type="text" name="start_date" placeholder="start date" ng-model="vm.newOffer.startDate">
+	<input type="text" name="end_date" placeholder="end date" ng-model="vm.newOffer.endDate">
+
+	<input type="text" name="start_time" placeholder="start time" ng-model="vm.newOffer.startTime">
+	<input type="text" name="end_time" placeholder="end time" ng-model="vm.newOffer.endTime">
+
+	<input type="text" name="location" placeholder="location" ng-model="vm.newOffer.location">
+<button type="submit">submit</button>
+</form>

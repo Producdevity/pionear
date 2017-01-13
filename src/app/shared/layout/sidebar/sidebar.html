@@ -11,15 +11,15 @@
 		<li>
 			<a href="#"><i class="material-icons sidebar-icon">image</i>Photos</a>
 			<ul class="subnav">
-				<li> Overview </li>
+				<li ui-sref=""> Overview </li>
 				<li> Add Photo</li>
 			</ul>
 		</li>
 		<li>
 			<a href="advertisements.html"><i class="material-icons sidebar-icon">insert_chart</i><span class="nav-item">Advertisements</span></a>
 			<ul class="subnav">
-				<a href="advertisements.html"> </a><li> Overview </li> </a>
-				<li> Add Advertisement</li>
+				<li ui-sref-active="active"><a ui-sref="main.offer.overview" href="advertisements.html"> Overview </a></li>
+				<li ui-sref-active="active"><a ui-sref="main.offer.add" href="advertisements.html"> Add Offer </a></li>
 			</ul>
 		</li>
 		<li>

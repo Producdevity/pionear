@@ -21,7 +21,7 @@
 			templateUrl: OFFER_PATH + '/overview/overview.view.html',
 			controller: 'OverviewOfferController',
 			controllerAs: 'vm'
-		}).state('offer.add', {
+		}).state('main.offer.add', {
 			url: '/add-offer',
 			templateUrl: OFFER_PATH + '/add-offer/add-offer.view.html',
 			controller: 'AddOfferController',

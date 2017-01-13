@@ -9,6 +9,7 @@
 		var offers = $firebaseArray($firebaseRef.offers);
 
 		var API = {
+			addOffer: addOffer,
 			getOffers: getOffers,
 			getOffer: getOffer,
 			updateOffer: updateOffer,
@@ -16,12 +17,18 @@
 		};
 		return API;
 
+		function addOffer(offer) {
+			return offers.$add({
+				name: offer.name
+			});
+		}
+
 		function getOffers() {
 			return offers;
 		}
 
-		function getOffer(id) {
-			return $firebaseObject($firebaseRef.offers.child(id));
+		function getOffer(offer) {
+			return $firebaseObject($firebaseRef.offers.child(offer.$id));
 		}
 
 		function updateOffer(offer) {

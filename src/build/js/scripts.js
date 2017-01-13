@@ -22,15 +22,16 @@
 			.module("myApp")
 			.config(config);
 
-	function config($urlRouterProvider, $stateProvider) {
+	function config($urlRouterProvider, $locationProvider, $stateProvider) {
 		console.log('app.routes function started');
-		const BASE_PATH = 'app/components',
-		      AUTH_PATH = `${BASE_PATH}/auth`;
+		const BASE_PATH = 'app/components';
 
-		$urlRouterProvider.otherwise('/');
+		$locationProvider.html5Mode(false);
+		$urlRouterProvider.otherwise('/dashboard');
 		$stateProvider
 				.state('main', {
-					url:          '/',
+					url:          '',
+					abstract:     true,
 					templateUrl:  `${BASE_PATH}/main/main.view.html`,
 					controller:   'MainController',
 					controllerAs: 'vm',
@@ -44,186 +45,14 @@
 						}]
 					}
 				})
-		//.state('main.dashboard', {
-		//	url:         '/dashboard',
-		//	controller:   'MainController',
-		//	controllerAs: 'vm',
-		//	templateUrl:  `${BASE_URL}/main/main.view.html`,
-		//})
-		//.state('auth.signin', {
-		//	url:          '/signin',
-		//	templateUrl:  `${AUTH_URL}/sign-in/sign-in.view.html`,
-		//	controller:   'AuthController',
-		//	controllerAs: 'vm'
-		//})
-		//.state('auth.signup', {
-		//	url:          '/signup',
-		//	templateUrl:  `${AUTH_URL}/sign-up/signup.view.html`,
-		//	controller:   'AuthController',
-		//	controllerAs: 'vm'
-		//})
-		//.state('contact', {
-		//	url: '/contact',
-		//	templateUrl: 'contact.html'
-		//})
+				.state('main.dashboard', {
+					url:          '/dashboard',
+					templateUrl:  `${BASE_PATH}/dashboard/dashboard.view.html`,
+					controller:   'DashboardController',
+					controllerAs: 'vm',
+				});
 	}
 
-})();
-(() => {
-	"use strict";
-
-	angular
-			.module("add-advertisment.controller", [])
-			.controller("AddAdvertismentController", AddAdvertismentController);
-
-	function AddAdvertismentController(Auth, UserService, Functions, $timeout, $location) {
-		let vm   = this;
-		this._fs = Functions;
-
-
-	}
-})();
-
-(() => {
-	'use strict';
-
-	angular
-			.module("auth.controller", [])
-			.controller("AuthController", AuthController);
-
-	function AuthController() {
-		let vm = this;
-
-	}
-})();
-(() => {
-	'use strict';
-
-	angular
-			.module('advertisment.module', [
-				'offer.routes',
-				'offer.controller',
-				'overview-advertisment.controller',
-				'add-advertisment.controller',
-				'offer.service'
-			]);
-
-})();
-
-(() => {
-	'use strict';
-
-	angular
-			.module("advertisment.routes", [])
-			.config(config)
-
-			function config($stateProvider) {
-				console.log('advertisment config function started');
-
-				const ADVERTISMENT_PATH = 'app/components/advertisment';
-
-				$stateProvider
-						.state('advertisment', {
-							abstract:    true,
-							url:         '/advertisment',
-							templateUrl: `${ADVERTISMENT_PATH}/advertisment.view.html`,
-						})
-						.state('advertisment.overview', {
-							url:          '/overview',
-							templateUrl:  `${ADVERTISMENT_PATH}/advertisment/overview.view.html`,
-							controller:   'OverviewAdvertismentController',
-							controllerAs: 'vm'
-						})
-						.state('advertisment.add', {
-							url:          '/add-advertisment',
-							templateUrl:  `${ADVERTISMENT_PATH}/advertisment/add-advertisment.view.html`,
-							controller:   'AddAdvertismentController',
-							controllerAs: 'vm'
-						})
-				//const config = {
-				//	apiKey:            "AIzaSyCpHUp3N9iuwO2BE-Abjr0C-lE1m424lBI",
-				//	authDomain:        "zapzite-b47f9.firebaseapp.com",
-				//	databaseURL:       "https://zapzite-b47f9.firebaseio.com",
-				//	storageBucket:     "zapzite-b47f9.appspot.com",
-				//	messagingSenderId: "554585547848"
-				//};
-				//firebase.initializeApp(config);
-				//
-				//$firebaseRefProvider.registerUrl({
-				//	default:    config.databaseURL,
-				//	categories: `${config.databaseURL}/categories`,
-				//	sites:      `${config.databaseURL}/sites`,
-				//	users:      `${config.databaseURL}/users`
-				//});
-				//
-				//$urlRouterProvider.otherwise('/');
-				//$stateProvider
-				//		.state('main', {
-				//			url: '/',
-				//			templateUrl: `${BASE_URL}/main/main.view.html`,
-				//			controller: 'MainController',
-				//      controllerAs: 'vm'
-				//		});
-						//.state('about', {
-						//	url: '/about',
-						//	templateUrl: 'about.html',
-						//	controller: 'aboutCtrl'
-						//})
-						//.state('contact', {
-						//	url: '/contact',
-						//	templateUrl: 'contact.html'
-						//})
-			}
-
-})();
-(() => {
-	'use strict';
-
-	angular
-			.module("auth.service", [])
-			.factory("Auth", Auth);
-
-	function Auth($firebaseAuth) {
-		return $firebaseAuth();
-	}
-})();
-
-(() => {
-	"use strict";
-
-	angular
-			.module("sign-in.controller", [])
-			.controller("SignInController", SignInController);
-
-	function SignInController(Auth, $location, Functions) {
-		let vm   = this;
-		this._fs = Functions;
-
-		vm.title = 'Sign in to Pionear';
-		vm.loading = true;
-
-		vm.signIn = signIn;
-
-		Auth.$onAuthStateChanged(user => {
-			if(user) $location.path('/');
-		});
-
-		function signIn(credentials) {
-			vm.loading = true;
-			Auth.$signInWithEmailAndPassword(credentials.email, credentials.pass)
-					.then(user => {
-						this._fs.toast().success(`Signed in as ${user.email}`);
-						$location.path('/dashboard');
-					})
-					.catch(error => {
-						console.error("Authentication failed:", error);
-						this._fs.toast().error(error.message);
-						vm.error   = error.message;
-						vm.loading = false;
-					});
-		}
-
-	}
 })();
 (() => {
 	'use strict';
@@ -280,40 +109,7 @@
 							templateUrl:  `${AUTH_PATH}/sign-up/sign-up.view.html`,
 							controller:   'SignUpController',
 							controllerAs: 'vm'
-						})
-				//const config = {
-				//	apiKey:            "AIzaSyCpHUp3N9iuwO2BE-Abjr0C-lE1m424lBI",
-				//	authDomain:        "zapzite-b47f9.firebaseapp.com",
-				//	databaseURL:       "https://zapzite-b47f9.firebaseio.com",
-				//	storageBucket:     "zapzite-b47f9.appspot.com",
-				//	messagingSenderId: "554585547848"
-				//};
-				//firebase.initializeApp(config);
-				//
-				//$firebaseRefProvider.registerUrl({
-				//	default:    config.databaseURL,
-				//	categories: `${config.databaseURL}/categories`,
-				//	sites:      `${config.databaseURL}/sites`,
-				//	users:      `${config.databaseURL}/users`
-				//});
-				//
-				//$urlRouterProvider.otherwise('/');
-				//$stateProvider
-				//		.state('main', {
-				//			url: '/',
-				//			templateUrl: `${BASE_URL}/main/main.view.html`,
-				//			controller: 'MainController',
-				//      controllerAs: 'vm'
-				//		});
-						//.state('about', {
-						//	url: '/about',
-						//	templateUrl: 'about.html',
-						//	controller: 'aboutCtrl'
-						//})
-						//.state('contact', {
-						//	url: '/contact',
-						//	templateUrl: 'contact.html'
-						//})
+						});
 			}
 
 })();
@@ -413,9 +209,35 @@
 	angular
 			.module('components.module', [
 				'auth.module',
+				'dashboard.module',
+				'offer.module',
 				'user.module',
 				'main.module'
 			]);
+})();
+
+(() => {
+	'use strict';
+
+	angular
+			.module("dashboard.controller", [])
+			.controller("DashboardController", DashboardController);
+
+	function DashboardController() {
+		let vm = this;
+
+
+	}
+})();
+
+(() => {
+	'use strict';
+
+	angular
+			.module("dashboard.module", [
+				"dashboard.controller"
+			]);
+
 })();
 
 (() => {
@@ -442,6 +264,133 @@
 
 })();
 
+(() => {
+	"use strict";
+
+	angular
+			.module("add-offer.controller", [])
+			.controller("AddOfferController", AddOfferController);
+
+	function AddOfferController(OfferService, UserService, Functions, $timeout, $location) {
+		let vm   = this;
+		this._fs = Functions;
+
+
+	}
+})();
+
+(() => {
+	'use strict';
+
+	angular
+			.module("offer.controller", [])
+			.controller("OfferController", OfferController);
+
+	function OfferController() {
+		let vm = this;
+		console.log('offer control');
+	}
+})();
+(() => {
+	'use strict';
+
+	angular
+			.module('offer.module', [
+				'offer.routes',
+				'offer.controller',
+				'overview-offer.controller',
+				'add-offer.controller',
+				'offer.service'
+			]);
+
+})();
+
+(() => {
+	'use strict';
+
+	angular
+			.module("offer.routes", [])
+			.config(config)
+
+	function config($stateProvider) {
+		console.log('offer config function started');
+
+		const OFFER_PATH = 'app/components/offer';
+
+		$stateProvider
+				.state('main.offer', {
+					url:          '/offer',
+					abstract:     true,
+					templateUrl:  `${OFFER_PATH}/offer.view.html`,
+					controller:   'OfferController',
+					controllerAs: 'vm'
+				})
+				.state('main.offer.overview', {
+					url:          '/overview',
+					templateUrl:  `${OFFER_PATH}/overview/overview.view.html`,
+					controller:   'OverviewOfferController',
+					controllerAs: 'vm'
+				})
+				.state('offer.add', {
+					url:          '/add-offer',
+					templateUrl:  `${OFFER_PATH}/add-offer/add-offer.view.html`,
+					controller:   'AddOfferController',
+					controllerAs: 'vm'
+				});
+	}
+
+})();
+(() => {
+	'use strict';
+
+	angular
+			.module("offer.service", [])
+			.factory("OfferService", OfferService);
+
+	function OfferService($firebaseRef, $firebaseArray, $firebaseObject) {
+		const offers = $firebaseArray($firebaseRef.offers);
+
+		const API = {
+			getOffers:   getOffers,
+			getOffer:    getOffer,
+			updateOffer: updateOffer,
+			deleteOffer: deleteOffer
+		};
+		return API;
+
+		function getOffers() {
+			return offers;
+		}
+
+		function getOffer(id) {
+			return $firebaseObject($firebaseRef.offers.child(id));
+		}
+
+		function updateOffer(offer) {
+			return offer.$save();
+		}
+
+		function deleteOffer(offer) {
+			return offers.$remove(offer);
+		}
+	}
+})();
+
+(() => {
+	"use strict";
+
+	angular
+			.module("overview-offer.controller", [])
+			.controller("OverviewOfferController", OverviewOfferController);
+
+	function OverviewOfferController(OfferService, $location, Functions) {
+		let vm   = this;
+		this._fs = Functions;
+
+		vm.title = 'Sign in to Pionear';
+
+	}
+})();
 (() => {
 	'use strict';
 
@@ -525,7 +474,8 @@
 
 		$firebaseRefProvider.registerUrl({
 			default: CONFIG.databaseURL,
-			users:   `${CONFIG.databaseURL}/users`
+			users:   `${CONFIG.databaseURL}/users`,
+			offers:  `${CONFIG.databaseURL}/offers`
 		});
 
 	}
@@ -563,7 +513,7 @@
 			.module("core.controller", [])
 			.controller("CoreController", CoreController);
 
-	function CoreController(Auth, UserService, Functions, $rootScope, $scope) {
+	function CoreController(Auth, UserService, Functions, $rootScope) {
 		let vm   = this;
 		this._fs = Functions;
 

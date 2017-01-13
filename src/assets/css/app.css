@@ -1,6 +1,9 @@
 body {
   overflow-x: hidden; }
 
+.href {
+  cursor: pointer; }
+
 /* Toggle Styles */
 #wrapper {
   padding-left: 0;

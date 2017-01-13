@@ -2,7 +2,9 @@
 <form ng-submit="vm.addOffer()">
 	<input type="text" name="name" placeholder="name" ng-model="vm.newOffer.name">
 	<input type="text" name="description" placeholder="description" ng-model="vm.newOffer.description">
-	<input type="text" name="image">
+
+	<img class="offer-img" ng-src="{{vm.image_source}}">
+	<input type="file" id="trigger" name="image" onchange="angular.element(this).scope().setFile(this)" accept="image/*">
 
 	<input type="text" name="start_date" placeholder="start date" ng-model="vm.newOffer.startDate">
 	<input type="text" name="end_date" placeholder="end date" ng-model="vm.newOffer.endDate">
@@ -13,3 +15,9 @@
 	<input type="text" name="location" placeholder="location" ng-model="vm.newOffer.location">
 <button type="submit">submit</button>
 </form>
+
+<style>
+	img.offer-img {
+		width: 150px;
+	}
+</style>

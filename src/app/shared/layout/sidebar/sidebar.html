@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<div id="sidebar-wrapper">
+<div id="sidebar-wrapper" ng-controller="SidebarController as vm">
 	<ul class="sidebar-nav">
 		<div class="avatar">
 			<img alt="" src="assets/img/profile/nespresso.jpg">
@@ -11,8 +11,8 @@
 		<li>
 			<a href="#"><i class="material-icons sidebar-icon">image</i>Photos</a>
 			<ul class="subnav">
-				<li ui-sref=""> Overview </li>
-				<li> Add Photo</li>
+				<li ui-sref-active="active"><a ui-sref="main.photo.overview"> Overview </a></li>
+				<li ui-sref-active="active"><a ui-sref="main.photo.add"> Add Photo </a></li>
 			</ul>
 		</li>
 		<li>
@@ -25,8 +25,8 @@
 		<li>
 			<a href="#"><i class="material-icons sidebar-icon">account_box</i><span class="nav-item">Account</span></a>
 			<ul class="subnav">
-				<li> Settings</li>
-				<li ng-click="core.signOut()"> Log out</li>
+				<li class="href"> Settings</li>
+				<li class="href" ng-click="vm.signOut()"> Log out</li>
 			</ul>
 		</li>
 	</ul>

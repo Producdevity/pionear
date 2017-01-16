@@ -2,11 +2,11 @@
 <div id="sidebar-wrapper" ng-controller="SidebarController as vm">
 	<ul class="sidebar-nav">
 		<div class="avatar">
-			<img alt="" src="assets/img/profile/nespresso.jpg">
+			<img alt="profile image" src="assets/img/profile/nespresso.jpg">
 			<h5> Nespresso {{core.currentUser.name}} </h5>
 		</div>
 		<li ui-sref-active="active">
-			<a ui-sref="main"><i class="material-icons sidebar-icon">broken_image</i><span class="nav-item">Dashboard</span></a>
+			<a ui-sref="main.dashboard"><i class="material-icons sidebar-icon">broken_image</i><span class="nav-item">Dashboard</span></a>
 		</li>
 		<li>
 			<a href="#"><i class="material-icons sidebar-icon">image</i>Photos</a>
@@ -16,10 +16,10 @@
 			</ul>
 		</li>
 		<li>
-			<a href="advertisements.html"><i class="material-icons sidebar-icon">insert_chart</i><span class="nav-item">Advertisements</span></a>
+			<a ui-sref="main.offer.overview"><i class="material-icons sidebar-icon">insert_chart</i><span class="nav-item">Offers</span></a>
 			<ul class="subnav">
-				<li ui-sref-active="active"><a ui-sref="main.offer.overview" href="advertisements.html"> Overview </a></li>
-				<li ui-sref-active="active"><a ui-sref="main.offer.add" href="advertisements.html"> Add Offer </a></li>
+				<li ui-sref-active="active"><a ui-sref="main.offer.overview"> Overview </a></li>
+				<li ui-sref-active="active"><a ui-sref="main.offer.add"> Add Offer </a></li>
 			</ul>
 		</li>
 		<li>

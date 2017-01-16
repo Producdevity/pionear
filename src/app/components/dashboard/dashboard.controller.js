@@ -8,6 +8,9 @@
 	function DashboardController() {
 		let vm = this;
 
+		// set header titles
+		vm.headerTitle = 'Dashboard';
+		vm.optionalDescription = 'overview';
 
 	}
 })();

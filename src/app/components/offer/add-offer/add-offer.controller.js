@@ -5,12 +5,14 @@
 			.module("add-offer.controller", [])
 			.controller("AddOfferController", AddOfferController);
 
-	function AddOfferController(OfferService, Functions, $scope, $timeout, $location) {
+	function AddOfferController(OfferService, Functions, Share, $scope, $timeout, $location) {
 		let vm   = this;
 		this._fs = Functions;
 
 		// viewmodel variables
 		vm.newOffer;
+
+		vm.optionalDescription = Share.headerDescription = 'add';
 
 		// functions
 		vm.addOffer    = addOffer;

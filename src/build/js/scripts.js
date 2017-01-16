@@ -226,6 +226,9 @@
 	function DashboardController() {
 		let vm = this;
 
+		// set header titles
+		vm.headerTitle = 'Dashboard';
+		vm.optionalDescription = 'overview';
 
 	}
 })();
@@ -271,10 +274,44 @@
 			.module("add-offer.controller", [])
 			.controller("AddOfferController", AddOfferController);
 
-	function AddOfferController(OfferService, UserService, Functions, $timeout, $location) {
+	function AddOfferController(OfferService, Functions, Share, $scope, $timeout, $location) {
 		let vm   = this;
 		this._fs = Functions;
 
+		// viewmodel variables
+		vm.newOffer;
+
+		vm.optionalDescription = Share.headerDescription = 'add';
+
+		// functions
+		vm.addOffer    = addOffer;
+		$scope.setFile = setFile;
+
+		/**
+		 * set file to preview uploaded img
+		 * @param element
+		 */
+		function setFile(element) {
+			vm.currentFile = element.files[0]; // set uploaded img as currentFile
+			let reader     = new FileReader();
+			// triggerd when file is read
+			reader.onload  = function(event) {
+				vm.image_source = event.target.result;
+				$scope.$apply();
+			}
+			reader.readAsDataURL(element.files[0]); // when the file is read, it triggers the onload event above.
+		}
+
+		/**
+		 * add an offer to the database
+		 * @trigger (ng-submit)
+		 */
+		function addOffer() {
+			OfferService.addOffer(vm.newOffer)
+					.then(console.log(vm.newOffer))
+					.then(this._fs.toast().success(`Added new offer ${vm.newOffer.name}`))
+					.then(vm.newOffer = {});
+		}
 
 	}
 })();
@@ -286,9 +323,15 @@
 			.module("offer.controller", [])
 			.controller("OfferController", OfferController);
 
-	function OfferController() {
+	function OfferController(Share) {
 		let vm = this;
-		console.log('offer control');
+		console.log(Share);
+
+		// set header titles
+		vm.headerTitle = 'Offers';
+		vm.optionalDescription = Share.headerDescription = 'overview';
+		//vm.optionalDescription = 'test';
+
 	}
 })();
 (() => {
@@ -331,7 +374,7 @@
 					controller:   'OverviewOfferController',
 					controllerAs: 'vm'
 				})
-				.state('offer.add', {
+				.state('main.offer.add', {
 					url:          '/add-offer',
 					templateUrl:  `${OFFER_PATH}/add-offer/add-offer.view.html`,
 					controller:   'AddOfferController',
@@ -351,6 +394,7 @@
 		const offers = $firebaseArray($firebaseRef.offers);
 
 		const API = {
+			addOffer:    addOffer,
 			getOffers:   getOffers,
 			getOffer:    getOffer,
 			updateOffer: updateOffer,
@@ -358,12 +402,19 @@
 		};
 		return API;
 
+
+		function addOffer(offer) {
+			return offers.$add({
+				name: offer.name
+			});
+		}
+
 		function getOffers() {
 			return offers;
 		}
 
-		function getOffer(id) {
-			return $firebaseObject($firebaseRef.offers.child(id));
+		function getOffer(offer) {
+			return $firebaseObject($firebaseRef.offers.child(offer.$id));
 		}
 
 		function updateOffer(offer) {
@@ -590,8 +641,8 @@
 				return {
 					restrict:    'E',
 					scope:       {
-						data: '=',
 						title: '@',
+						optionalDescription: '@',
 						toggle: '&'
 					},
 					controller: function($scope) {
@@ -624,8 +675,15 @@
 			.controller("SidebarController", SidebarController);
 
 	function SidebarController($location, Auth) {
-		var vm      = this;
+		var vm = this;
 
+		vm.signOut = signOut;
+
+		function signOut() {
+			console.log('signout');
+			Auth.$signOut()
+					.then(this._fs.toast().success('You are signed out.'));
+		}
 	}
 })();
 
@@ -656,11 +714,24 @@
 
 	angular
 			.module("services.module", [
-				"functions.factory"
+				"functions.factory",
+				"share.service"
 			]);
 
 })();
 
+(() => {
+	'use strict';
+
+	angular
+			.module("share.service", [])
+			.service("Share", Share);
+
+	function Share() {
+		this.headerDescription = '';
+
+	}
+})();
 (() => {
 	'use strict';
 

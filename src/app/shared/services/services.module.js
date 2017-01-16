@@ -3,7 +3,8 @@
 
 	angular
 			.module("services.module", [
-				"functions.factory"
+				"functions.factory",
+				"share.service"
 			]);
 
 })();

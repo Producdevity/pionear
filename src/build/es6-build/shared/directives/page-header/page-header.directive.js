@@ -7,8 +7,8 @@
 		return {
 			restrict: 'E',
 			scope: {
-				data: '=',
 				title: '@',
+				optionalDescription: '@',
 				toggle: '&'
 			},
 			controller: function controller($scope) {

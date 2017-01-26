@@ -446,6 +446,84 @@
 	'use strict';
 
 	angular
+			.module("settings.controller", [])
+			.controller("OfferController", OfferController);
+
+	function OfferController(Share) {
+		let vm = this;
+
+		// set header titles
+		vm.headerTitle = 'Offers';
+		vm.optionalDescription = Share.headerDescription = 'overview';
+		//vm.optionalDescription = 'test';
+
+	}
+})();
+(() => {
+	'use strict';
+
+	angular
+			.module('settings.module', [
+				'settings.routes',
+				'settings.controller',
+				'settings.service'
+			]);
+
+})();
+
+(() => {
+	'use strict';
+
+	angular
+			.module("offer.routes", [])
+			.config(config)
+
+	function config($stateProvider) {
+		console.log('settings config function started');
+
+		const SETTINGS_PATH = 'app/components/settings';
+
+		$stateProvider
+				.state('main.settings', {
+					url:          '/settings',
+					templateUrl:  `${SETTINGS_PATH}/settings.view.html`,
+					controller:   'SettingsController',
+					controllerAs: 'vm'
+				});
+	}
+
+})();
+(() => {
+	'use strict';
+
+	angular
+			.module("settings.service", [])
+			.factory("SettingsService", SettingsService);
+
+	function SettingsService($firebaseRef, $firebaseArray, $firebaseObject) {
+		const profile = $firebaseObject($firebaseRef.settings);
+
+		const API = {
+			getProfile:    getProfile,
+			updateProfile: updateProfile
+		};
+		return API;
+
+		function getProfile() {
+			return profile;
+		}
+
+		function updateProfile(profile) {
+			return profile.$save();
+		}
+
+	}
+})();
+
+(() => {
+	'use strict';
+
+	angular
 			.module("user.controller", [])
 			.controller("UserController", UserController);
 

@@ -5,6 +5,8 @@ node_modules/
 .sass-cache/
 database.rules.json
 firebase.json
+src/build/*
+src/build/es6-build/
 src/build/
 src/assets/css/app.css
 src/assets/css/app.css.map

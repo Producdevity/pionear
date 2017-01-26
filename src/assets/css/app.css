@@ -245,6 +245,125 @@ h3 {
   margin: 10px;
   background: yellow; }
 
+/*!
+ /photo overviewpage
+ */
+.head-menu {
+  background-color: #333333;
+  padding-top: 1%; }
+
+.logo {
+  padding-bottom: 1%; }
+
+.registerfields input {
+  margin-bottom: 10px; }
+
+.paddingleft {
+  padding-left: 0; }
+
+.paddingright {
+  padding-right: 0; }
+
+.companytxt {
+  margin-top: 100px; }
+
+.companytxt2 {
+  margin-top: 30px; }
+
+.slogan {
+  color: #FF9068;
+  font-size: 40px; }
+
+.inline {
+  display: inline-block; }
+
+.txtcolor {
+  color: #FF9068; }
+
+.registerbtn {
+  margin-top: 5%;
+  float: right; }
+
+.regbutton {
+  background: #FF9068;
+  /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#FF9068, #FD746C);
+  /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#FF9068, #FD746C);
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#FF9068, #FD746C);
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#FF9068, #FD746C);
+  /* Standard syntax */
+  color: white; }
+
+.image {
+  height: auto;
+  width: 100%; }
+
+.line {
+  margin-bottom: 50px; }
+
+.location-photo {
+  text-align: center; }
+
+h4 {
+  font-family: 'Roboto', sans-serif; }
+
+.fa-chevron-circle-right {
+  color: #FF9068; }
+
+.fa-chevron-circle-left {
+  color: #FF9068; }
+
+.pagination li a {
+  border: none; }
+
+.pagination li a {
+  color: #333333; }
+
+.pagination .active a {
+  background-color: white;
+  color: #FF9068; }
+
+.pagination .active a:hover {
+  background-color: white;
+  color: #FF9068; }
+
+.pagination li a:focus {
+  color: #FF9068;
+  background-color: #FF9068; }
+
+.pagination li a:hover {
+  color: #333333;
+  background-color: white; }
+
+.advertclose {
+  position: absolute;
+  right: 0;
+  top: 0;
+  float: right;
+  margin: 5px 3px 0 0; }
+
+.fa-times {
+  color: #F94610;
+  -webkit-transition: color 0.2s ease-out;
+  -moz-transition: color 0.2s ease-out;
+  -o-transition: color 0.2s ease-out;
+  transition: color 0.2s ease-out; }
+
+.fa-times:hover {
+  color: #A00B0B; }
+
+.icons {
+  color: #FF9068; }
+
+.nomargin {
+  padding-left: 0px; }
+
+.margintop {
+  margin-top: 0px; }
+
 /*Google api end*/
 @media (min-width: 768px) {
   #wrapper {

@@ -10,10 +10,10 @@
 		const BASE_PATH = 'app/components';
 
 		$locationProvider.html5Mode(false);
-		$urlRouterProvider.otherwise('/dashboard');
+		$urlRouterProvider.otherwise('/d/dashboard');
 		$stateProvider
 				.state('main', {
-					url:          '',
+					url:          '/d',
 					abstract:     true,
 					templateUrl:  `${BASE_PATH}/main/main.view.html`,
 					controller:   'MainController',

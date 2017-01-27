@@ -10,7 +10,7 @@
 				this._fs = Functions;
 
 				// viewmodel variables
-				vm.newOffer;
+				vm.newPhoto;
 
 				vm.optionalDescription = Share.headerDescription = 'add';
 
@@ -38,7 +38,7 @@
      * @trigger (ng-submit)
      */
 				function addOffer() {
-						OfferService.addOffer(vm.newOffer).then(console.log(vm.newOffer)).then(this._fs.toast().success("Added new offer " + vm.newOffer.name)).then(vm.newOffer = {});
+						OfferService.addOffer(vm.newPhoto).then(console.log(vm.newPhoto)).then(this._fs.toast().success("Added new offer " + vm.newPhoto.name)).then(vm.newPhoto = {});
 				}
 		}
 })();

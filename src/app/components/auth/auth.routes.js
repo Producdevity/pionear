@@ -12,20 +12,9 @@
 
 				$stateProvider
 						.state('auth', {
-							abstract:    true,
 							url:         '/auth',
 							templateUrl: `${AUTH_PATH}/auth.view.html`,
-						})
-						.state('auth.signin', {
-							url:          '/sign-in',
-							templateUrl:  `${AUTH_PATH}/sign-in/sign-in.view.html`,
-							controller:   'SignInController',
-							controllerAs: 'vm'
-						})
-						.state('auth.signup', {
-							url:          '/sign-up',
-							templateUrl:  `${AUTH_PATH}/sign-up/sign-up.view.html`,
-							controller:   'SignUpController',
+							controller:   'AuthController',
 							controllerAs: 'vm'
 						});
 			}

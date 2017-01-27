@@ -7,6 +7,8 @@
 				'ui.router',
 				'firebase',
 				'toastr',
+				'nemLogging',
+				'uiGmapgoogle-maps',
 				//	My Modules
 				'components.module',
 				'shared.module',

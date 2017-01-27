@@ -5,7 +5,7 @@
 
 	angular.module("myApp").config(config).run(run);
 
-	function config($firebaseRefProvider) {
+	function config($firebaseRefProvider, uiGmapGoogleMapApiProvider) {
 		console.log('config function started');
 
 		// Initialize Firebase
@@ -23,11 +23,18 @@
 			users: CONFIG.databaseURL + '/users',
 			offers: CONFIG.databaseURL + '/offers'
 		});
+
+		uiGmapGoogleMapApiProvider.configure({
+			key: 'AIzaSyBnsamIJVVYhw9qI1nS7ooFHgkhxnsGBeE',
+			v: '3.20', //defaults to latest 3.X anyhow
+			libraries: 'places, geometry, visualization'
+		});
 	}
 
 	function run(Auth, $rootScope, $location, $state) {
 		console.log('run function started');
 		checkAuth();
+		//$rootScope._ = window._;
 
 		$rootScope.$on('$routeChangeStart', function (next, current) {
 			checkAuth();
@@ -37,13 +44,13 @@
 			// We can catch the error thrown when the $requireSignIn promise is rejected
 			// and redirect the user back to the home page
 			if (error === "AUTH_REQUIRED") {
-				$state.go("home");
+				//$state.go("home");
 			}
 		});
 
 		function checkAuth() {
 			Auth.$onAuthStateChanged(function (user) {
-				if (!user) $location.path('/auth/sign-in');
+				//if(!user) $location.path('/auth');
 				console.log(user);
 			});
 		}

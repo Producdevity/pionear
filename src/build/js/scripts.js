@@ -7,6 +7,9 @@
 				'ui.router',
 				'firebase',
 				'toastr',
+				'_',
+				'nemLogging',
+				'uiGmapgoogle-maps',
 				//	My Modules
 				'components.module',
 				'shared.module',
@@ -27,10 +30,10 @@
 		const BASE_PATH = 'app/components';
 
 		$locationProvider.html5Mode(false);
-		$urlRouterProvider.otherwise('/dashboard');
+		$urlRouterProvider.otherwise('/d/dashboard');
 		$stateProvider
 				.state('main', {
-					url:          '',
+					url:          '/d',
 					abstract:     true,
 					templateUrl:  `${BASE_PATH}/main/main.view.html`,
 					controller:   'MainController',
@@ -61,91 +64,22 @@
 			.module("auth.controller", [])
 			.controller("AuthController", AuthController);
 
-	function AuthController() {
+	function AuthController(Auth, UserService, Functions, $location) {
 		let vm = this;
-
-	}
-})();
-(() => {
-	'use strict';
-
-	angular
-			.module('auth.module', [
-				'auth.routes',
-				'auth.controller',
-				'sign-in.controller',
-				'sign-up.controller',
-				'auth.service'
-			]);
-
-})();
-
-(() => {
-	'use strict';
-
-	angular
-			.module("auth.routes", [])
-			.config(config)
-
-			function config($stateProvider) {
-				console.log('auth config function started');
-
-				const AUTH_PATH = 'app/components/auth';
-
-				$stateProvider
-						.state('auth', {
-							abstract:    true,
-							url:         '/auth',
-							templateUrl: `${AUTH_PATH}/auth.view.html`,
-						})
-						.state('auth.signin', {
-							url:          '/sign-in',
-							templateUrl:  `${AUTH_PATH}/sign-in/sign-in.view.html`,
-							controller:   'SignInController',
-							controllerAs: 'vm'
-						})
-						.state('auth.signup', {
-							url:          '/sign-up',
-							templateUrl:  `${AUTH_PATH}/sign-up/sign-up.view.html`,
-							controller:   'SignUpController',
-							controllerAs: 'vm'
-						});
-			}
-
-})();
-(() => {
-	'use strict';
-
-	angular
-			.module("auth.service", [])
-			.factory("Auth", Auth);
-
-	function Auth($firebaseAuth) {
-		return $firebaseAuth();
-	}
-})();
-
-(() => {
-	"use strict";
-
-	angular
-			.module("sign-in.controller", [])
-			.controller("SignInController", SignInController);
-
-	function SignInController(Auth, $location, Functions) {
-		let vm   = this;
 		this._fs = Functions;
-
-		vm.title = 'Sign in to Pionear';
-		vm.loading = true;
-
+		console.log('authcontroller');
+		vm.signUp = signUp;
 		vm.signIn = signIn;
 
+		vm.loading = true;
+
 		Auth.$onAuthStateChanged(user => {
-			if(user) $location.path('/');
+			//if(user) $location.path('/');
 		});
 
 		function signIn(credentials) {
+			console.log(credentials);
+			console.log('singin');
 			vm.loading = true;
 			Auth.$signInWithEmailAndPassword(credentials.email, credentials.pass)
 					.then(user => {
@@ -160,24 +94,8 @@
 					});
 		}
 
-	}
-})();
-(() => {
-	"use strict";
-
-	angular
-			.module("sign-up.controller", [])
-			.controller("SignUpController", SignUpController);
-
-	function SignUpController(Auth, UserService, Functions, $timeout, $location) {
-		let vm   = this;
-		this._fs = Functions;
-
-		vm.title = 'Sign up for Pionear';
-
-		vm.signUp = signUp;
-
 		function signUp(credentials) {
+			console.log(credentials);
 			Auth.$createUserWithEmailAndPassword(credentials.email, credentials.pass)
 					.then(user => {
 						let newUser   = UserService.getUser(user.uid);
@@ -199,7 +117,51 @@
 						vm.error = error.message;
 					});
 		}
+	}
+})();
+(() => {
+	'use strict';
 
+	angular
+			.module('auth.module', [
+				'auth.routes',
+				'auth.controller',
+				'auth.service'
+			]);
+
+})();
+
+(() => {
+	'use strict';
+
+	angular
+			.module("auth.routes", [])
+			.config(config)
+
+			function config($stateProvider) {
+				console.log('auth config function started');
+
+				const AUTH_PATH = 'app/components/auth';
+
+				$stateProvider
+						.state('auth', {
+							url:         '/auth',
+							templateUrl: `${AUTH_PATH}/auth.view.html`,
+							controller:   'AuthController',
+							controllerAs: 'vm'
+						});
+			}
+
+})();
+(() => {
+	'use strict';
+
+	angular
+			.module("auth.service", [])
+			.factory("Auth", Auth);
+
+	function Auth($firebaseAuth) {
+		return $firebaseAuth();
 	}
 })();
 
@@ -211,6 +173,8 @@
 				'auth.module',
 				'dashboard.module',
 				'offer.module',
+				'settings.module',
+				'photo.module',
 				'user.module',
 				'main.module'
 			]);
@@ -279,7 +243,7 @@
 		this._fs = Functions;
 
 		// viewmodel variables
-		vm.newOffer;
+		vm.newPhoto;
 
 		vm.optionalDescription = Share.headerDescription = 'add';
 
@@ -307,10 +271,10 @@
 		 * @trigger (ng-submit)
 		 */
 		function addOffer() {
-			OfferService.addOffer(vm.newOffer)
-					.then(console.log(vm.newOffer))
-					.then(this._fs.toast().success(`Added new offer ${vm.newOffer.name}`))
-					.then(vm.newOffer = {});
+			OfferService.addOffer(vm.newPhoto)
+					.then(console.log(vm.newPhoto))
+					.then(this._fs.toast().success(`Added new offer ${vm.newPhoto.name}`))
+					.then(vm.newPhoto = {});
 		}
 
 	}
@@ -365,7 +329,7 @@
 					url:          '/offer',
 					abstract:     true,
 					templateUrl:  `${OFFER_PATH}/offer.view.html`,
-					controller:   'OfferController',
+					controller:   'PhotoController',
 					controllerAs: 'vm'
 				})
 				.state('main.offer.overview', {
@@ -443,19 +407,214 @@
 	}
 })();
 (() => {
+	"use strict";
+
+	angular
+			.module("add-photo.controller", [])
+			.controller("AddPhotoController", AddPhotoController);
+
+	function AddPhotoController(PhotoService, Functions, Share, $scope, $timeout, $location) {
+		let vm   = this;
+		this._fs = Functions;
+
+		// viewmodel variables
+		vm.newPhoto;
+
+		vm.optionalDescription = Share.headerDescription = 'add';
+		vm.map = {center: {latitude: 45, longitude: -73}, zoom: 8};
+
+		// functions
+		vm.addPhoto    = addPhoto;
+		$scope.setFile = setFile;
+
+		/**
+		 * set file to preview uploaded img
+		 * @param element
+		 */
+		function setFile(element) {
+			vm.currentFile = element.files[0]; // set uploaded img as currentFile
+			let reader     = new FileReader();
+			// triggerd when file is read
+			reader.onload  = function(event) {
+				vm.image_source = event.target.result;
+				$scope.$apply();
+			}
+			reader.readAsDataURL(element.files[0]); // when the file is read, it triggers the onload event above.
+		}
+
+		/**
+		 * add an offer to the database
+		 * @trigger (ng-submit)
+		 */
+		function addPhoto() {
+			PhotoService.addPhoto(vm.newPhoto)
+					.then(console.log(vm.newPhoto))
+					.then(this._fs.toast().success(`Added new offer ${vm.newPhoto.name}`))
+					.then(vm.newPhoto = {});
+		}
+
+	}
+})();
+
+(() => {
+	"use strict";
+
+	angular
+			.module("overview-photo.controller", [])
+			.controller("OverviewPhotoController", OverviewPhotoController);
+
+	function OverviewPhotoController(Functions) {
+		let vm   = this;
+		this._fs = Functions;
+
+
+	}
+})();
+(() => {
+	'use strict';
+
+	angular
+			.module("photo.controller", [])
+			.controller("PhotoController", PhotoController);
+
+	function PhotoController(Share) {
+		let vm = this;
+		console.log(Share);
+
+		// set header titles
+		vm.headerTitle = 'Photos';
+		vm.optionalDescription = Share.headerDescription = 'overview';
+
+	}
+})();
+(() => {
+	'use strict';
+
+	angular
+			.module('photo.module', [
+				'photo.routes',
+				'photo.controller',
+				'overview-photo.controller',
+				'add-photo.controller',
+				'photo.service'
+			]);
+
+})();
+
+(() => {
+	'use strict';
+
+	angular
+			.module("photo.routes", [])
+			.config(config)
+
+	function config($stateProvider) {
+		console.log('photo config function started');
+
+		const PHOTO_PATH = 'app/components/photo';
+
+		$stateProvider
+				.state('main.photo', {
+					url:          '/photo',
+					abstract:     true,
+					templateUrl:  `${PHOTO_PATH}/photo.view.html`,
+					controller:   'PhotoController',
+					controllerAs: 'vm'
+				})
+				.state('main.photo.overview', {
+					url:          '/overview',
+					templateUrl:  `${PHOTO_PATH}/overview/overview.view.html`,
+					controller:   'OverviewPhotoController',
+					controllerAs: 'vm'
+				})
+				.state('main.photo.add', {
+					url:          '/add-photo',
+					templateUrl:  `${PHOTO_PATH}/add-photo/add-photo.view.html`,
+					controller:   'AddPhotoController',
+					controllerAs: 'vm'
+				});
+	}
+
+})();
+(() => {
+	'use strict';
+
+	angular
+			.module("photo.service", [])
+			.factory("PhotoService", PhotoService);
+
+	function PhotoService($firebaseRef, $firebaseArray, $firebaseObject) {
+		const offers = $firebaseArray($firebaseRef.offers);
+
+		const API = {
+			addOffer:    addOffer,
+			getOffers:   getOffers,
+			getOffer:    getOffer,
+			updateOffer: updateOffer,
+			deleteOffer: deleteOffer
+		};
+		return API;
+
+
+		function addOffer(offer) {
+			return offers.$add({
+				name: offer.name
+			});
+		}
+
+		function getOffers() {
+			return offers;
+		}
+
+		function getOffer(offer) {
+			return $firebaseObject($firebaseRef.offers.child(offer.$id));
+		}
+
+		function updateOffer(offer) {
+			return offer.$save();
+		}
+
+		function deleteOffer(offer) {
+			return offers.$remove(offer);
+		}
+	}
+})();
+
+(() => {
 	'use strict';
 
 	angular
 			.module("settings.controller", [])
-			.controller("OfferController", OfferController);
+			.controller("SettingsController", SettingsController);
 
-	function OfferController(Share) {
+	function SettingsController(Share, UserService, Auth, Functions) {
 		let vm = this;
+		this._fs = Functions;
+
+		vm.updateProfile = updateProfile;
 
 		// set header titles
-		vm.headerTitle = 'Offers';
+		vm.headerTitle         = 'Account settings';
 		vm.optionalDescription = Share.headerDescription = 'overview';
-		//vm.optionalDescription = 'test';
+
+		function init() {
+		 getUser();
+		}
+		init();
+
+		function getUser() {
+			Auth.$onAuthStateChanged(user => {
+				if(user) {
+					vm.currentUser = UserService.getUser(user.uid);
+					console.log(vm.currentUser);
+				}
+			});
+		}
+
+		function updateProfile() {
+				UserService.updateUser(vm.currentUser)
+						.then(this._fs.toast().success(`Updated profile`));
+		}
 
 	}
 })();
@@ -475,7 +634,7 @@
 	'use strict';
 
 	angular
-			.module("offer.routes", [])
+			.module("settings.routes", [])
 			.config(config)
 
 	function config($stateProvider) {
@@ -512,6 +671,7 @@
 		function getProfile() {
 			return profile;
 		}
+
 
 		function updateProfile(profile) {
 			return profile.$save();
@@ -588,7 +748,7 @@
 			.config(config)
 			.run(run)
 
-	function config($firebaseRefProvider) {
+	function config($firebaseRefProvider, uiGmapGoogleMapApiProvider) {
 		console.log('config function started');
 
 		// Initialize Firebase
@@ -607,11 +767,20 @@
 			offers:  `${CONFIG.databaseURL}/offers`
 		});
 
+		uiGmapGoogleMapApiProvider.configure({
+			key:       'AIzaSyBnsamIJVVYhw9qI1nS7ooFHgkhxnsGBeE',
+			v:         '3.20', //defaults to latest 3.X anyhow
+			libraries: 'weather,geometry,visualization'
+		});
+
+
+
 	}
 
 	function run(Auth, $rootScope, $location, $state) {
 		console.log('run function started');
 		checkAuth();
+		$rootScope._ = window._;
 
 		$rootScope.$on('$routeChangeStart', (next, current) => {
 			checkAuth();
@@ -621,13 +790,13 @@
 			// We can catch the error thrown when the $requireSignIn promise is rejected
 			// and redirect the user back to the home page
 			if(error === "AUTH_REQUIRED") {
-				$state.go("home");
+				//$state.go("home");
 			}
 		});
 
 		function checkAuth() {
 			Auth.$onAuthStateChanged(user => {
-				if(!user) $location.path('/auth/sign-in');
+				//if(!user) $location.path('/auth');
 				console.log(user);
 			});
 		}

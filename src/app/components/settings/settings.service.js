@@ -18,6 +18,7 @@
 			return profile;
 		}
 
+
 		function updateProfile(profile) {
 			return profile.$save();
 		}

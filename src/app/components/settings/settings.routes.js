@@ -2,7 +2,7 @@
 	'use strict';
 
 	angular
-			.module("offer.routes", [])
+			.module("settings.routes", [])
 			.config(config)
 
 	function config($stateProvider) {

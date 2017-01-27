@@ -1,3 +1,87 @@
-<page-header title="{{vm.headerTitle}}" optional-description="{{vm.optionalDescription}}" toggle="core.toggleSidebarParent()"></page-header>
-<h5>OFFER.VIEW.HTML</h5>
-<ui-view></ui-view>
+<!-- Page Content -->
+<div id="page-content-wrapper">
+	<div class="container-fluid">
+		<div class="row">
+			<page-header title="{{vm.headerTitle}}" optional-description="{{vm.optionalDescription}}"
+			             toggle="core.toggleSidebarParent()"></page-header>
+		</div>
+
+
+		<div class="container nopadding nomargin">
+			<h3 class="txtcolor">User settings</h3>
+			<div class="row">
+
+				<div class="col-sm-3 registerfields">
+
+					<input type="text" class="form-control setting-form" placeholder="Fullname" ng-model="vm.currentUser.name">
+					<input type="text" class="form-control setting-form" placeholder="E-mail" ng-model="vm.currentUser.email">
+					<button class="btn regbutton" data-dismiss="modal" data-toggle="modal"
+					        data-target="#passModal">Change password
+					</button>
+
+				</div>
+
+				<div class="col-sm-2 margintop">
+					<div class="form-group advertontop">
+						<div class="advertclose"><i class="fa fa-pencil-square-o fa-2x icons"
+						                            aria-hidden="true"></i>
+						</div>
+						<img src="assets/img/test.jpg" class="advertimage">
+					</div>
+
+				</div>
+
+			</div>
+
+
+			<div class="col-sm-5  nopadding registerfields">
+				<h3 class="companytxt2 txtcolor">Company Info</h3>
+
+				<input type="text" class="form-control" placeholder="Company name"
+				       ng-model="vm.currentUser.company">
+				<input type="text" class="form-control" placeholder="Adres"
+				       ng-model="vm.currentUser.address">
+				<input type="text" class="form-control" placeholder="Zip Code"
+				       ng-model="vm.currentUser.zipcode">
+				<input type="text" class="form-control" placeholder="Telephone"
+				       ng-model="vm.currentUser.phone">
+				<input type="text" class="form-control" placeholder="Land"
+				       ng-model="vm.currentUser.land">
+
+				<a ng-click="vm.updateProfile()">
+					<button class="btn regbutton registerbtn">Save</button>
+				</a>
+			</div>
+		</div>
+
+
+	</div>
+	<!--Container end-->
+
+
+</div>
+
+<!-- Change password Modal -->
+<div class="modal fade" id="passModal" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Change Password</h4>
+			</div>
+			<div class="modal-body">
+				<input type="text" class="form-control setting-form" placeholder="Old Passord"><br />
+				<input type="text" class="form-control setting-form" placeholder="New Password"><br />
+				<input type="text" class="form-control setting-form"
+				       placeholder="Repeat Password">
+			</div>
+			<div class="modal-footer">
+				<button class="btn regbutton" data-dismiss="modal">Change password</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+

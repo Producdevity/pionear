@@ -15,7 +15,7 @@
 					url:          '/offer',
 					abstract:     true,
 					templateUrl:  `${OFFER_PATH}/offer.view.html`,
-					controller:   'OfferController',
+					controller:   'PhotoController',
 					controllerAs: 'vm'
 				})
 				.state('main.offer.overview', {

@@ -1,0 +1,73 @@
+<!--<h1>ADD OFFER</h1>-->
+<!--<form ng-submit="vm.addPhoto()">-->
+<!--<input type="text" name="name" placeholder="name" ng-model="vm.newOffer.name">-->
+<!--<input type="text" name="description" placeholder="description" ng-model="vm.newOffer.description">-->
+
+<!--<img class="offer-img" ng-src="{{vm.image_source}}">-->
+<!--<input type="file" id="trigger" name="image" onchange="angular.element(this).scope().setFile(this)" accept="image/*">-->
+
+<!--<input type="text" name="start_date" placeholder="start date" ng-model="vm.newOffer.startDate">-->
+<!--<input type="text" name="end_date" placeholder="end date" ng-model="vm.newOffer.endDate">-->
+
+<!--<input type="text" name="start_time" placeholder="start time" ng-model="vm.newOffer.startTime">-->
+<!--<input type="text" name="end_time" placeholder="end time" ng-model="vm.newOffer.endTime">-->
+
+<!--<input type="text" name="location" placeholder="location" ng-model="vm.newOffer.location">-->
+<!--<button type="submit">submit</button>-->
+<!--</form>-->
+
+<!--<style>-->
+<!--img.offer-img {-->
+<!--width: 150px;-->
+<!--}-->
+<!--</style>-->
+
+<style>
+	.angular-google-map-container {
+		height: 400px;
+	}
+</style>
+<!-- Page Content -->
+<div id="page-content-wrapper">
+	<div class="container-fluid">
+
+		<div class="row">
+			<div class="col-sm-12">
+				<a href="#menu-toggle" id="menu-toggle"><i class="material-icons">menu</i></a>
+				<h1 class="page-header">
+					Add Photo
+				</h1>
+			</div>
+			<div class="col-sm-12">
+
+				<script id="searchbox.tpl.html" type="text/ng-template">
+					<input type="text" placeholder="Search">
+				</script>
+				<ui-gmap-google-map center='vm.map.center' zoom='vm.map.zoom'>
+					<ui-gmap-search-box template="vm.map.searchbox.template" events="vm.map.searchbox.events"></ui-gmap-search-box>
+				</ui-gmap-google-map>
+
+				<input id="pac-input" class="controls" type="text" placeholder="Search Box"
+				       value="Miami, Florida">
+				<div id="map-canvas"></div>
+				<button id="trigger-search">Trigger search</button>
+			</div>
+
+			<div class="col-sm-3">
+
+
+				<div class="form-group advertontop">
+					<div class=" advertadd"><img src="assets/img/plus.png"></div>
+					<img src="assets/img/test.jpg" class="advertimage">
+				</div>
+
+
+			</div>
+
+
+		</div>
+
+
+	</div>
+
+</div>

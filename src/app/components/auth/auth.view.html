@@ -1,11 +1,104 @@
-<div class="login-box">
-	<div class="login-logo">
-		<a href="#"><b>Ticketlogs</b>TL</a>
+<style>
+	img.logo {
+		height: 40px;
+	}
+
+	img.background {
+		width: 100%;
+	}
+</style>
+
+
+<!-- /menu -->
+<div class="container-fluid">
+	<div class="row">
+
+		<div class="col-sm-12 head-menu ">
+
+			<div class="col-sm-2 logo">
+				<img class="logo" src="assets/img/logo.svg" alt="Logo Pionear">
+			</div>
+			<p ng-if="vm.error">{{ vm.error }}</p>
+			<form ng-submit="vm.signIn(credentials)">
+
+				<input type="submit" class="btn regbutton" value="submit"/>
+				<div class="col-md-6 col-md-push-4 col-sm-7 col-sm-push-3">
+					<div class="col-sm-4 paddingleft">
+						<input type="text" class="form-control" placeholder="E-mail adress" ng-model="credentials.email">
+						<input class="input-group inline" type="checkbox" name="Remember" value="yes">
+						<label class="txtcolor">Remember me? </label>
+					</div>
+
+					<div class="col-sm-4 paddingleft">
+						<input type="password" class="form-control" placeholder="********" id="password"
+						       ng-model="credentials.pass">
+						<a class="txtcolor" href="#"> Forgot password? </a>
+					</div>
+
+					<div class="col-sm-3 paddingleft">
+						<a>
+							<button type="submit" class="btn regbutton"> Login</button>
+						</a>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
-	<!-- /.login-logo -->
-	<div class="login-box-body">
-		<ui-view></ui-view>
-	</div>
-	<!-- /.login-box-body -->
 </div>
-<!-- /.login-box -->
+
+<!-- /menu -->
+<div id="page-content-wrapper">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-12">
+
+				<div class="col-sm-6">
+					<h1 class="slogan"> Connect with your community</h1>
+					<img class="background" src="assets/img/background.png" alt="backgroundpionear">
+				</div>
+
+				<div class="col-sm-4  registerfields">
+					<p ng-if="vm.error">{{ vm.error }}</p>
+					<form ng-submit="vm.signUp(credentials)">
+						<h2 class="txtcolor"> Register</h2>
+						<h3 class="txtcolor">User</h3>
+						<input type="text" class="form-control" placeholder="Company name"
+						       ng-model="credentials.name">
+						<input type="email" class="form-control" placeholder="Email"
+						       ng-model="credentials.email">
+
+						<div class="col-sm-6 paddingleft">
+							<input type="password" class="form-control" placeholder="Password"
+							       ng-model="credentials.pass">
+						</div>
+
+						<div class="col-sm-6 paddingright">
+							<input type="password" class="form-control" placeholder="Confirm password"
+							       ng-model="credentials.pass2">
+						</div>
+
+						<h3 class="companytxt txtcolor">Company</h3>
+
+						<input type="text" class="form-control" placeholder="Address"
+						       ng-model="credentials.address">
+						<input type="text" class="form-control" placeholder="Zipcode"
+						       ng-model="credentials.zipcode">
+						<input type="text" class="form-control" placeholder="Phone"
+						       ng-model="credentials.phone">
+						<input type="text" class="form-control" placeholder="Land" ng-model="credentials.land">
+
+						<select class="form-control">
+							<option value="none">Choose your country</option>
+							<option value="NL">Nederland</option>
+							<option value="ENG">England</option>
+						</select>
+
+						<a>
+							<button type="submit" class="btn regbutton registerbtn"> Register</button>
+						</a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

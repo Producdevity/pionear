@@ -9,9 +9,9 @@
 			<a ui-sref="main.dashboard"><i class="material-icons sidebar-icon">broken_image</i><span class="nav-item">Dashboard</span></a>
 		</li>
 		<li>
-			<a href="#"><i class="material-icons sidebar-icon">image</i><span class="nav-item">Photos</span></a>
+			<a ui-sref="main.photo.overview"><i class="material-icons sidebar-icon">image</i><span class="nav-item">Photos</span></a>
 			<ul class="subnav">
-				<li ui-sref-active="active"><a ui-sref="main.photo.overview"> Overview </a></li>
+				<li ui-sref-active="active"><a ui-sref="main.photo.overview"> Overview </a></li
 				<li ui-sref-active="active"><a ui-sref="main.photo.add"> Add Photo </a></li>
 			</ul>
 		</li>
@@ -25,7 +25,7 @@
 		<li>
 			<a href="#"><i class="material-icons sidebar-icon">account_box</i><span class="nav-item">Account</span></a>
 			<ul class="subnav">
-				<li class="href"> Settings</li>
+				<li class="href"><a ui-sref="main.settings"> Settings </a></li>
 				<li class="href" ng-click="vm.signOut()"> Log out</li>
 			</ul>
 		</li>

@@ -15,6 +15,7 @@
 			templateUrl: AUTH_PATH + '/auth.view.html',
 			controller: 'AuthController',
 			controllerAs: 'vm'
+
 		});
 	}
 })();

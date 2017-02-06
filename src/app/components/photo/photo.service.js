@@ -5,39 +5,45 @@
 			.module("photo.service", [])
 			.factory("PhotoService", PhotoService);
 
-	function PhotoService($firebaseRef, $firebaseArray, $firebaseObject) {
-		const offers = $firebaseArray($firebaseRef.offers);
+	function PhotoService($firebaseRef, $firebaseArray, $firebaseObject, $firebaseStorage) {
+		const photos  = $firebaseArray($firebaseRef.photos);
+		const storage = firebase.storage().ref("images/photos");
 
-		const API = {
-			addOffer:    addOffer,
-			getOffers:   getOffers,
-			getOffer:    getOffer,
-			updateOffer: updateOffer,
-			deleteOffer: deleteOffer
+		const API     = {
+			addPhoto:    addPhoto,
+			getPhotos:   getPhotos,
+			getStorage:  getStorage,
+			getPhoto:    getPhoto,
+			updatePhoto: updatePhoto,
+			deletePhoto: deletePhoto
 		};
 		return API;
 
 
-		function addOffer(offer) {
-			return offers.$add({
-				name: offer.name
+		function addPhoto(photo) {
+			return photos.$add({
+				name: photo.name
 			});
 		}
 
-		function getOffers() {
-			return offers;
+		function getPhotos() {
+			return photos;
 		}
 
-		function getOffer(offer) {
-			return $firebaseObject($firebaseRef.offers.child(offer.$id));
+		function getStorage() {
+			return $firebaseStorage(storage);
 		}
 
-		function updateOffer(offer) {
-			return offer.$save();
+		function getPhoto(photo) {
+			return $firebaseObject($firebaseRef.photos.child(photo.$id));
 		}
 
-		function deleteOffer(offer) {
-			return offers.$remove(offer);
+		function updatePhoto(photo) {
+			return photo.$save();
+		}
+
+		function deletePhoto(photo) {
+			return photos.$remove(photo);
 		}
 	}
 })();

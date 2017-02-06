@@ -6,16 +6,16 @@
 			.controller("AuthController", AuthController);
 
 	function AuthController(Auth, UserService, Functions, $location) {
-		let vm = this;
+		let vm   = this;
 		this._fs = Functions;
-		console.log('authcontroller');
-		vm.signUp = signUp;
-		vm.signIn = signIn;
 
-		vm.loading = true;
+		vm.signUp       = signUp;
+		vm.signIn       = signIn;
+		vm.credentialsX = {};
+		vm.loading      = true;
 
 		Auth.$onAuthStateChanged(user => {
-			//if(user) $location.path('/');
+			if(user) $location.path('/');
 		});
 
 		function signIn(credentials) {
@@ -35,19 +35,19 @@
 					});
 		}
 
-		function signUp(credentials) {
-			console.log(credentials);
-			Auth.$createUserWithEmailAndPassword(credentials.email, credentials.pass)
+		function signUp() {
+			console.log(vm.credentialsX);
+			Auth.$createUserWithEmailAndPassword(vm.credentialsX.email, vm.credentialsX.pass)
 					.then(user => {
-						let newUser   = UserService.getUser(user.uid);
-						console.log(credentials);
-						newUser.email = user.email;
-						newUser.name  = credentials.name;
-						newUser.company  = credentials.company;
-						newUser.address  = credentials.address;
-						newUser.zipcode  = credentials.zipcode;
-						newUser.phone  = credentials.phone;
-						newUser.land  = credentials.land;
+						let newUser = UserService.getUser(user.uid);
+						console.log(vm.credentialsX);
+						newUser.email   = user.email;
+						newUser.name    = vm.credentialsX.name;
+						newUser.company = vm.credentialsX.company;
+						newUser.address = vm.credentialsX.address;
+						newUser.zipcode = vm.credentialsX.zipcode;
+						newUser.phone   = vm.credentialsX.phone;
+						newUser.land    = vm.credentialsX.land;
 						newUser.$save()
 								.then(this._fs.toast().success('Signed up successfully!'))
 								.then($location.path('/'));

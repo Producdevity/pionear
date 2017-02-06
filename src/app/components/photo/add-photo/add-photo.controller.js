@@ -29,12 +29,12 @@
 			}
 		};
 
-		GoogleMapApi.then(function(maps) {
-			maps.visualRefresh = true;
-		});
-		uiGmapGoogleMapApi.then(function(maps) {
-			maps.visualRefresh = true;
-		});
+		//GoogleMapApi.then(function(maps) {
+		//	maps.visualRefresh = true;
+		//});
+		//uiGmapGoogleMapApi.then(function(maps) {
+		//	maps.visualRefresh = true;
+		//});
 
 		// functions
 		vm.addPhoto    = addPhoto;

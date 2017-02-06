@@ -22,7 +22,8 @@
 		$firebaseRefProvider.registerUrl({
 			default: CONFIG.databaseURL,
 			users:   `${CONFIG.databaseURL}/users`,
-			offers:  `${CONFIG.databaseURL}/offers`
+			offers:  `${CONFIG.databaseURL}/offers`,
+			photos:  `${CONFIG.databaseURL}/photos`
 		});
 
 		uiGmapGoogleMapApiProvider.configure({
@@ -31,14 +32,11 @@
 			libraries: 'places, geometry, visualization'
 		});
 
-
-
 	}
 
 	function run(Auth, $rootScope, $location, $state) {
 		console.log('run function started');
 		checkAuth();
-		//$rootScope._ = window._;
 
 		$rootScope.$on('$routeChangeStart', (next, current) => {
 			checkAuth();
@@ -48,13 +46,13 @@
 			// We can catch the error thrown when the $requireSignIn promise is rejected
 			// and redirect the user back to the home page
 			if(error === "AUTH_REQUIRED") {
-				//$state.go("home");
+				$state.go("auth");
 			}
 		});
 
 		function checkAuth() {
 			Auth.$onAuthStateChanged(user => {
-				//if(!user) $location.path('/auth');
+				if(!user) $location.path('/auth');
 				console.log(user);
 			});
 		}

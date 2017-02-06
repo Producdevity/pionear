@@ -8,14 +8,14 @@
 	function AuthController(Auth, UserService, Functions, $location) {
 		var vm = this;
 		this._fs = Functions;
-		console.log('authcontroller');
+
 		vm.signUp = signUp;
 		vm.signIn = signIn;
-
+		vm.credentialsX = {};
 		vm.loading = true;
 
 		Auth.$onAuthStateChanged(function (user) {
-			//if(user) $location.path('/');
+			if (user) $location.path('/');
 		});
 
 		function signIn(credentials) {
@@ -35,20 +35,20 @@
 			});
 		}
 
-		function signUp(credentials) {
+		function signUp() {
 			var _this2 = this;
 
-			console.log(credentials);
-			Auth.$createUserWithEmailAndPassword(credentials.email, credentials.pass).then(function (user) {
+			console.log(vm.credentialsX);
+			Auth.$createUserWithEmailAndPassword(vm.credentialsX.email, vm.credentialsX.pass).then(function (user) {
 				var newUser = UserService.getUser(user.uid);
-				console.log(credentials);
+				console.log(vm.credentialsX);
 				newUser.email = user.email;
-				newUser.name = credentials.name;
-				newUser.company = credentials.company;
-				newUser.address = credentials.address;
-				newUser.zipcode = credentials.zipcode;
-				newUser.phone = credentials.phone;
-				newUser.land = credentials.land;
+				newUser.name = vm.credentialsX.name;
+				newUser.company = vm.credentialsX.company;
+				newUser.address = vm.credentialsX.address;
+				newUser.zipcode = vm.credentialsX.zipcode;
+				newUser.phone = vm.credentialsX.phone;
+				newUser.land = vm.credentialsX.land;
 				newUser.$save().then(_this2._fs.toast().success('Signed up successfully!')).then($location.path('/'));
 			}).catch(function (error) {
 				_this2._fs.toast().error(error.message);

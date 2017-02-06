@@ -7,7 +7,6 @@
 				'ui.router',
 				'firebase',
 				'toastr',
-				'_',
 				'nemLogging',
 				'uiGmapgoogle-maps',
 				//	My Modules
@@ -65,16 +64,16 @@
 			.controller("AuthController", AuthController);
 
 	function AuthController(Auth, UserService, Functions, $location) {
-		let vm = this;
+		let vm   = this;
 		this._fs = Functions;
-		console.log('authcontroller');
-		vm.signUp = signUp;
-		vm.signIn = signIn;
 
-		vm.loading = true;
+		vm.signUp       = signUp;
+		vm.signIn       = signIn;
+		vm.credentialsX = {};
+		vm.loading      = true;
 
 		Auth.$onAuthStateChanged(user => {
-			//if(user) $location.path('/');
+			if(user) $location.path('/');
 		});
 
 		function signIn(credentials) {
@@ -94,19 +93,19 @@
 					});
 		}
 
-		function signUp(credentials) {
-			console.log(credentials);
-			Auth.$createUserWithEmailAndPassword(credentials.email, credentials.pass)
+		function signUp() {
+			console.log(vm.credentialsX);
+			Auth.$createUserWithEmailAndPassword(vm.credentialsX.email, vm.credentialsX.pass)
 					.then(user => {
-						let newUser   = UserService.getUser(user.uid);
-						console.log(credentials);
-						newUser.email = user.email;
-						newUser.name  = credentials.name;
-						newUser.company  = credentials.company;
-						newUser.address  = credentials.address;
-						newUser.zipcode  = credentials.zipcode;
-						newUser.phone  = credentials.phone;
-						newUser.land  = credentials.land;
+						let newUser = UserService.getUser(user.uid);
+						console.log(vm.credentialsX);
+						newUser.email   = user.email;
+						newUser.name    = vm.credentialsX.name;
+						newUser.company = vm.credentialsX.company;
+						newUser.address = vm.credentialsX.address;
+						newUser.zipcode = vm.credentialsX.zipcode;
+						newUser.phone   = vm.credentialsX.phone;
+						newUser.land    = vm.credentialsX.land;
 						newUser.$save()
 								.then(this._fs.toast().success('Signed up successfully!'))
 								.then($location.path('/'));
@@ -138,19 +137,20 @@
 			.module("auth.routes", [])
 			.config(config)
 
-			function config($stateProvider) {
-				console.log('auth config function started');
+	function config($stateProvider) {
+		console.log('auth config function started');
 
-				const AUTH_PATH = 'app/components/auth';
+		const AUTH_PATH = 'app/components/auth';
 
-				$stateProvider
-						.state('auth', {
-							url:         '/auth',
-							templateUrl: `${AUTH_PATH}/auth.view.html`,
-							controller:   'AuthController',
-							controllerAs: 'vm'
-						});
-			}
+		$stateProvider
+				.state('auth', {
+					url:          '/auth',
+					templateUrl:  `${AUTH_PATH}/auth.view.html`,
+					controller:   'AuthController',
+					controllerAs: 'vm'
+
+				});
+	}
 
 })();
 (() => {
@@ -413,7 +413,7 @@
 			.module("add-photo.controller", [])
 			.controller("AddPhotoController", AddPhotoController);
 
-	function AddPhotoController(PhotoService, Functions, Share, $scope, $timeout, $location) {
+	function AddPhotoController(PhotoService, Functions, Share, $scope, $log, GoogleMapApi, uiGmapGoogleMapApi) {
 		let vm   = this;
 		this._fs = Functions;
 
@@ -421,7 +421,28 @@
 		vm.newPhoto;
 
 		vm.optionalDescription = Share.headerDescription = 'add';
-		vm.map = {center: {latitude: 45, longitude: -73}, zoom: 8};
+		vm.map = {
+			center:    {latitude: 45, longitude: -73},
+			zoom:      8,
+			searchbox: {
+				template: 'searchbox.tpl.html',
+				events:   {
+					places_changed: function(searchBox) {
+						console.log(searchBox);
+					}
+				}
+			},
+			options:   {
+				scrollwheel: false
+			}
+		};
+
+		GoogleMapApi.then(function(maps) {
+			maps.visualRefresh = true;
+		});
+		uiGmapGoogleMapApi.then(function(maps) {
+			maps.visualRefresh = true;
+		});
 
 		// functions
 		vm.addPhoto    = addPhoto;
@@ -454,7 +475,9 @@
 		}
 
 	}
-})();
+	}
+
+	)();
 
 (() => {
 	"use strict";
@@ -764,23 +787,21 @@
 		$firebaseRefProvider.registerUrl({
 			default: CONFIG.databaseURL,
 			users:   `${CONFIG.databaseURL}/users`,
-			offers:  `${CONFIG.databaseURL}/offers`
+			offers:  `${CONFIG.databaseURL}/offers`,
+			photos:  `${CONFIG.databaseURL}/photos`
 		});
 
 		uiGmapGoogleMapApiProvider.configure({
 			key:       'AIzaSyBnsamIJVVYhw9qI1nS7ooFHgkhxnsGBeE',
 			v:         '3.20', //defaults to latest 3.X anyhow
-			libraries: 'weather,geometry,visualization'
+			libraries: 'places, geometry, visualization'
 		});
-
-
 
 	}
 
 	function run(Auth, $rootScope, $location, $state) {
 		console.log('run function started');
 		checkAuth();
-		$rootScope._ = window._;
 
 		$rootScope.$on('$routeChangeStart', (next, current) => {
 			checkAuth();
@@ -790,13 +811,13 @@
 			// We can catch the error thrown when the $requireSignIn promise is rejected
 			// and redirect the user back to the home page
 			if(error === "AUTH_REQUIRED") {
-				//$state.go("home");
+				$state.go("auth");
 			}
 		});
 
 		function checkAuth() {
 			Auth.$onAuthStateChanged(user => {
-				//if(!user) $location.path('/auth');
+				if(!user) $location.path('/auth');
 				console.log(user);
 			});
 		}
@@ -804,6 +825,7 @@
 	};
 
 })();
+
 (() => {
 	'use strict';
 
@@ -921,15 +943,16 @@
 			.module("sidebar.controller", [])
 			.controller("SidebarController", SidebarController);
 
-	function SidebarController($location, Auth) {
+	function SidebarController($location, Auth, Functions) {
 		var vm = this;
-
+this._fs = Functions;
 		vm.signOut = signOut;
 
 		function signOut() {
 			console.log('signout');
 			Auth.$signOut()
-					.then(this._fs.toast().success('You are signed out.'));
+					.then(this._fs.toast().success('You are signed out.'))
+					.then($location.path('/auth'));
 		}
 	}
 })();

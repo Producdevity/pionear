@@ -21,7 +21,6 @@
 			<p ng-if="vm.error">{{ vm.error }}</p>
 			<form ng-submit="vm.signIn(credentials)">
 
-				<input type="submit" class="btn regbutton" value="submit"/>
 				<div class="col-md-6 col-md-push-4 col-sm-7 col-sm-push-3">
 					<div class="col-sm-4 paddingleft">
 						<input type="text" class="form-control" placeholder="E-mail adress" ng-model="credentials.email">
@@ -37,7 +36,7 @@
 
 					<div class="col-sm-3 paddingleft">
 						<a>
-							<button type="submit" class="btn regbutton"> Login</button>
+							<button type="submit" ng-click="vm.signIn(credentials)" class="btn regbutton"> Login</button>
 						</a>
 					</div>
 				</div>
@@ -59,33 +58,33 @@
 
 				<div class="col-sm-4  registerfields">
 					<p ng-if="vm.error">{{ vm.error }}</p>
-					<form ng-submit="vm.signUp(credentials)">
+					<form>
 						<h2 class="txtcolor"> Register</h2>
 						<h3 class="txtcolor">User</h3>
 						<input type="text" class="form-control" placeholder="Company name"
-						       ng-model="credentials.name">
+						       ng-model="credentialsX.name">
 						<input type="email" class="form-control" placeholder="Email"
-						       ng-model="credentials.email">
+						       ng-model="credentialsX.email">
 
 						<div class="col-sm-6 paddingleft">
 							<input type="password" class="form-control" placeholder="Password"
-							       ng-model="credentials.pass">
+							       ng-model="credentialsX.pass">
 						</div>
 
 						<div class="col-sm-6 paddingright">
 							<input type="password" class="form-control" placeholder="Confirm password"
-							       ng-model="credentials.pass2">
+							       ng-model="credentialsX.pass2">
 						</div>
 
 						<h3 class="companytxt txtcolor">Company</h3>
 
 						<input type="text" class="form-control" placeholder="Address"
-						       ng-model="credentials.address">
+						       ng-model="credentialsX.address">
 						<input type="text" class="form-control" placeholder="Zipcode"
-						       ng-model="credentials.zipcode">
+						       ng-model="credentialsX.zipcode">
 						<input type="text" class="form-control" placeholder="Phone"
-						       ng-model="credentials.phone">
-						<input type="text" class="form-control" placeholder="Land" ng-model="credentials.land">
+						       ng-model="credentialsX.phone">
+						<input type="text" class="form-control" placeholder="Land" ng-model="credentialsX.land">
 
 						<select class="form-control">
 							<option value="none">Choose your country</option>
@@ -94,7 +93,7 @@
 						</select>
 
 						<a>
-							<button type="submit" class="btn regbutton registerbtn"> Register</button>
+							<button type="submit" ng-click="vm.signUp(vm.credentialsX)" class="btn regbutton registerbtn"> Register</button>
 						</a>
 					</form>
 				</div>
